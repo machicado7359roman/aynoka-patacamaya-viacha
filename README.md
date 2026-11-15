@@ -4,7 +4,7 @@ Demostración del Sistema Híbrido de Apoyo a la Decisión para la Rotación de 
 
 ## Abrir
 
-**[Abrir la página web AYNOKA](https://astra-altiplano-2026.streamlit.app/)**
+**[Abrir la página web AYNOKA](https://aynoka-patacamaya-viacha.streamlit.app/)**
 
 La versión web se despliega en Streamlit Community Cloud desde `app/main.py`. Para ejecutarla localmente:
 
