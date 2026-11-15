@@ -17,7 +17,7 @@ from app.portal_agricultor import mostrar_pacharota
 from motor.configuracion import obtener_estrategias_configuradas
 from motor.conector_motor import obtener_salida_motor
 
-st.set_page_config(page_title="Farmastra · Altiplano", layout="wide")
+st.set_page_config(page_title="AYNOKA · Altiplano", layout="wide")
 st.html("""<style>
 [data-testid="stHeader"], [data-testid="stToolbar"] {display:none}
 [data-testid="stMainBlockContainer"] {padding:0; max-width:none}
@@ -132,7 +132,7 @@ if parada in paradas:
                 with st.expander("Ejemplo guiado · Patacamaya"):
                     st.write("Una familia quiere elegir una secuencia de tres años. ¿Elegiría la misma si su prioridad pasara de ahorrar agua a recuperar el suelo?")
                     st.write(f"En esta campaña NASA POWER registra {clima['precipitacion_total_mm']:.2f} mm de lluvia y {clima['dias_helada']} días con mínima bajo cero en el punto de referencia.")
-                    if st.toggle("Consultar la campaña NASA POWER en ASTRA"):
+                    if st.toggle("Consultar la campaña NASA POWER en AYNOKA"):
                         mostrar_campana(sitio, clima, "variable_ejemplo")
                     st.caption("Prueba los dos casos con el mismo clima. Cada botón da todo el peso a un criterio para que puedas ver su efecto en las tres secuencias de abajo.")
                     def aplicar_prioridad(criterio):

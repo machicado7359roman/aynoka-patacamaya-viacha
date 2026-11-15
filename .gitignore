@@ -11,3 +11,6 @@ __pycache__/
 .local/
 *.sqlite3
 *.sqlite3-*
+android-build/build-manual/
+android-build/.gradle/
+android-build/app/build/

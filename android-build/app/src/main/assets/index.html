@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#080c1a" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#080c1a" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="AYNOKA" />
+  <title>AYNOKA • ASTABLES AGRO 3D</title>
+  <style>
+    :root {
+      --bg: #080c1a;
+      --surface: #11182d;
+      --surface-soft: #17203a;
+      --border: rgba(148, 163, 184, 0.18);
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.14);
+      --cyan: #38bdf8;
+      --purple: #7c3aed;
+      --amber: #f59e0b;
+      --red: #f43f5e;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-text-size-adjust: 100%;
+      overscroll-behavior: none;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Plus Jakarta Sans', 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overscroll-behavior: none;
+      background: radial-gradient(circle at 50% 0%, rgba(34, 197, 94, 0.10), transparent 50%), var(--bg);
+      min-height: 100dvh;
+    }
+
+    input, select, textarea {
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--text);
+    }
+
+    button, [role="button"], .chip, .weather-btn, .nav-item, .cat-pill, .prio-pill {
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px 16px;
+      background: rgba(8, 12, 26, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      z-index: 20;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: var(--accent-soft);
+      border: 1.5px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .brand-name {
+      font-weight: 800;
+      font-size: 0.98rem;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-tag {
+      font-size: 0.72rem;
+      color: var(--cyan);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-gear {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-gear:active { transform: scale(0.95); }
+
+    .content-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 14px 15px calc(92px + env(safe-area-inset-bottom, 0px)) 15px;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeIn 0.2s var(--ease);
+    }
+    .screen.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 15px;
+      margin-bottom: 13px;
+    }
+
+    .step-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      margin: 0 0 4px 0;
+    }
+
+    .step-hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin: 0 0 11px 0;
+      line-height: 1.4;
+    }
+
+    .select-clean {
+      width: 100%;
+      background: var(--surface-soft);
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
+      border-radius: 12px;
+      padding: 10px 13px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    /* ======================================================================
+       DIORAMA METEOROLÓGICO 3D INTERACTIVO (Nubes, Tormenta, Sequía, Helada)
+       ====================================================================== */
+    .weather-stage-box {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1.5px solid rgba(56, 189, 248, 0.38);
+      margin-bottom: 11px;
+      box-shadow: 0 10px 26px rgba(2, 6, 23, 0.55);
+    }
+
+    #weather-3d-canvas {
+      width: 100%;
+      height: 235px;
+      display: block;
+      touch-action: none;
+      cursor: grab;
+    }
+    #weather-3d-canvas:active { cursor: grabbing; }
+
+    .weather-hud-top {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .weather-badge {
+      background: rgba(8, 12, 26, 0.82);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      color: #f8fafc;
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 5px 10px;
+      border-radius: 999px;
+    }
+
+    .weather-touch-hint {
+      background: rgba(8, 12, 26, 0.72);
+      color: #cbd5e1;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 8px;
+    }
+
+    .weather-hud-bottom {
+      position: absolute;
+      bottom: 8px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      background: rgba(8, 12, 26, 0.76);
+      backdrop-filter: blur(6px);
+      padding: 6px 11px;
+      border-radius: 10px;
+    }
+
+    .weather-modes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      margin-bottom: 11px;
+    }
+
+    .weather-btn {
+      background: var(--surface-soft);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 4px;
+      color: var(--text);
+      font-size: 0.74rem;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      transition: transform 100ms var(--ease), border-color 120ms, background 120ms;
+    }
+    .weather-btn span.w-emo { font-size: 1.2rem; }
+    .weather-btn:active { transform: scale(0.95); }
+    .weather-btn.active {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: var(--cyan);
+      color: #e0f2fe;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
+    }
+
+    .sensor-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-bottom: 11px;
+    }
+
+    .reading-card {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 9px 11px;
+    }
+
+    .reading-label {
+      font-size: 0.73rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .reading-input-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .reading-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid rgba(56, 189, 248, 0.45);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--cyan);
+      padding: 2px 0;
+      outline: none;
+    }
+
+    /* Prioridad simple (Esencia del motor MCDA de Rudy sin abrumar) */
+    .prio-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .prio-pill {
+      background: var(--surface-soft);
+      border: 1.5px solid var(--border);
+      border-radius: 11px;
+      padding: 8px 6px;
+      color: var(--muted);
+      font-size: 0.73rem;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+    }
+    .prio-pill.active {
+      background: rgba(34, 197, 94, 0.15);
+      border-color: var(--accent);
+      color: #dcfce7;
+    }
+
+    /* Pestañas de los 5 Grupos Alimentarios de Rudy */
+    .cat-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+      scrollbar-width: none;
+    }
+    .cat-tabs::-webkit-scrollbar { display: none; }
+
+    .cat-pill {
+      background: var(--surface-soft);
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      padding: 7px 12px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .cat-pill.active {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: var(--cyan);
+      color: #f8fafc;
+    }
+
+    .chips-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .chip {
+      background: var(--surface-soft);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 9px 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 100ms var(--ease);
+    }
+    .chip:active { transform: scale(0.96); }
+    .chip.selected {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: #dcfce7;
+    }
+
+    .cta-btn {
+      width: 100%;
+      background: linear-gradient(90deg, #16a34a, #22c55e);
+      color: #052e16;
+      border: none;
+      border-radius: 14px;
+      padding: 13px 16px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 12px;
+      box-shadow: 0 8px 22px rgba(34, 197, 94, 0.28);
+      transition: transform 110ms var(--ease);
+    }
+    .cta-btn:active { transform: scale(0.97); }
+
+    /* Pantalla 2: Plan recomendado + Dualidad Campo Abierto vs Carpa Solar */
+    .hero-plan {
+      background: linear-gradient(145deg, rgba(22, 163, 74, 0.22), var(--surface));
+      border: 2px solid var(--accent);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 13px;
+    }
+
+    .plan-pill {
+      display: inline-block;
+      background: var(--accent);
+      color: #052e16;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 7px;
+    }
+
+    .year-steps {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+      margin: 10px 0 4px 0;
+    }
+
+    .year-box {
+      background: rgba(8, 12, 26, 0.65);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 8px 10px;
+    }
+
+    .year-num {
+      font-size: 0.69rem;
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    .year-crop {
+      font-size: 0.84rem;
+      font-weight: 800;
+      margin-top: 2px;
+    }
+
+    .veg-item {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 13px;
+      margin-bottom: 10px;
+    }
+
+    .veg-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .veg-name {
+      font-size: 0.93rem;
+      font-weight: 800;
+    }
+
+    .tag-status {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 4px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .tag-status.green { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+    .tag-status.orange { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .tag-status.purple { background: rgba(124, 58, 237, 0.25); color: #c4b5fd; }
+
+    /* Barras duales Campo Abierto vs Carpa Solar (Motor de Rudy) */
+    .dual-bars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 8px 0;
+      background: rgba(8, 12, 26, 0.55);
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+
+    .bar-col {
+      font-size: 0.72rem;
+    }
+
+    .bar-track {
+      height: 6px;
+      background: rgba(148, 163, 184, 0.2);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 6px 0 8px 0;
+      font-size: 0.73rem;
+      color: #cbd5e1;
+    }
+
+    .meta-pill {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 8px;
+      padding: 3px 8px;
+    }
+
+    .veg-reason {
+      font-size: 0.81rem;
+      color: #cbd5e1;
+      line-height: 1.42;
+      margin: 4px 0 8px 0;
+    }
+
+    .btn-link-3d {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--cyan);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 9px;
+      padding: 6px 11px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    details.more-details {
+      margin-top: 8px;
+      font-size: 0.79rem;
+      color: var(--muted);
+    }
+    details.more-details summary {
+      cursor: pointer;
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    #farmer-3d-canvas {
+      width: 100%;
+      height: 275px;
+      background: radial-gradient(circle at 50% 42%, rgba(56, 189, 248, 0.15), #050813 76%);
+      border-radius: 16px;
+      border: 1px solid rgba(56, 189, 248, 0.32);
+      display: block;
+      touch-action: none;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.82);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 50;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    .modal-box {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      width: 100%;
+      max-width: 420px;
+      max-height: 90dvh;
+      overflow-y: auto;
+    }
+
+    .bottom-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(8, 12, 26, 0.96);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border);
+      padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)) 12px;
+      display: flex;
+      justify-content: space-around;
+      max-width: 560px;
+      margin: 0 auto;
+      z-index: 30;
+    }
+
+    .nav-item {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .nav-item.active {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- CABECERA CON PERFIL DE AGRICULTOR (Rama `usuario`) + CONEXIÓN WEB -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon">🌱</div>
+        <div style="min-width:0;">
+          <div class="brand-name">AYNOKA</div>
+          <div class="brand-tag" id="user-badge-top">👤 Productor Piloto • Patacamaya</div>
+        </div>
+      </div>
+    <button id="btn-lang-toggle" type="button" class="btn-gear">Aymara</button></header>
+
+    <main class="content-scroll">
+      <!-- PANTALLA 1: CLIMA 3D INTERACTIVO + PARCELA + CATÁLOGO DE 18 CULTIVOS DE RUDY -->
+      <section class="screen active" id="scr-parcela">
+        <div class="card">
+          <h2 class="step-title">1. Clima en 3D y tu parcela</h2>
+          <p class="step-hint">Gira la parcela 3D con tu dedo, toca el cielo o elige el clima de la simulación.</p>
+
+          <div style="display:grid; grid-template-columns: 1.3fr 1fr; gap:8px; margin-bottom: 10px;">
+            <select id="inp-parcela" class="select-clean">
+              <option value="patacamaya_01">📍 Patacamaya (Altiplano Central)</option>
+              <option value="viacha_01">📍 Viacha (Altiplano Norte)</option>
+            </select>
+            <select id="inp-campana" class="select-clean" title="Campaña satelital NASA POWER"><option value="2024_2025">2024–2025 · NASA POWER</option></select>
+          </div>
+
+          <!-- DIORAMA 3D INTERACTIVO DEL CLIMA Y LA PARCELA -->
+          <div class="weather-stage-box">
+            <canvas id="weather-3d-canvas"></canvas>
+            <div class="weather-hud-top">
+              <span class="weather-badge" id="w3d-badge">⛅ Clima templado andino</span>
+              <span class="weather-touch-hint" id="w3d-hint">Toca o gira en 3D</span>
+            </div>
+            <div class="weather-hud-bottom">
+              <span id="w3d-temp-text">🌡️ 8.4 °C</span>
+              <span id="w3d-soil-text">💧 Suelo: 23.5%</span>
+            </div>
+          </div>
+
+          <!-- BOTONES DE CLIMA INTERACTIVOS -->
+          <div class="weather-modes-grid">
+            <button class="weather-btn active" data-weather="templado">
+              <span class="w-emo">⛅</span>
+              <span>Normal</span>
+            </button>
+            <button class="weather-btn" data-weather="tormenta">
+              <span class="w-emo">⛈️</span>
+              <span>Tormenta</span>
+            </button>
+            <button class="weather-btn" data-weather="sequia">
+              <span class="w-emo">☀️</span>
+              <span>Seco / Sol</span>
+            </button>
+            <button class="weather-btn" data-weather="helada">
+              <span class="w-emo">❄️</span>
+              <span>Helada</span>
+            </button>
+          </div>
+
+          <!-- LECTURAS DEL SENSOR -->
+          <div class="sensor-pair">
+            <div class="reading-card">
+              <div class="reading-label">🌡️ Temperatura simulada (°C)</div>
+              <div class="reading-input-wrap">
+                <input type="number" step="0.1" inputmode="decimal" id="inp-temp" class="reading-input" value="8.4" />
+                <span style="color:var(--muted); font-weight:700;">°C</span>
+              </div>
+            </div>
+
+            <div class="reading-card">
+              <div class="reading-label">💧 Humedad simulada (%)</div>
+              <div class="reading-input-wrap">
+                <input type="number" step="0.5" inputmode="decimal" id="inp-hum" class="reading-input" value="23.5" />
+                <span style="color:var(--muted); font-weight:700;">%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PRIORIDAD DEL PRODUCTOR (Motor MCDA de Rudy) -->
+          <div class="reading-label" style="margin-bottom:5px;">🎯 ¿Qué es lo más importante para ti este año?</div>
+          <div class="prio-row">
+            <button class="prio-pill active" data-goal="agua">💧 Prioridades ASTRA</button>
+            <button class="prio-pill" data-goal="suelo">🌱 Priorizar suelo</button>
+            <button class="prio-pill" data-goal="produccion">🦙 Producción</button>
+          </div>
+        </div>
+
+        <!-- PASO 2: CATÁLOGO DE 18 OPCIONES DE RUDY POR CATEGORÍAS -->
+        <div class="card">
+          <h2 class="step-title">2. ¿Qué deseas cultivar? (18 opciones regionales)</h2>
+          <p class="step-hint">Elige por grupo (Granos, Tubérculos, Verduras). Abre sus fichas y explora las plantas en 3D.</p>
+
+          <div class="cat-tabs" id="cat-tabs-bar">
+            <button class="cat-pill active" data-cat="verdura_hortaliza">🥕 Verduras (7)</button>
+            <button class="cat-pill" data-cat="tuberculo_andino">🥔 Tubérculos (4)</button>
+            <button class="cat-pill" data-cat="grano_andino">🌾 Granos (2)</button>
+            <button class="cat-pill" data-cat="leguminosa_forraje">🫛 Leguminosas (5)</button>
+          </div>
+
+          <div class="chips-wrap" id="crops-chip-grid"></div>
+
+          <button class="cta-btn" id="btn-ver-recomendacion">
+            Ver sugerencia para mi parcela →
+          </button>
+        </div>
+      </section>
+
+      <!-- PANTALLA 2: QUÉ SEMBRAR (ROTACIÓN GANADORA + CAMPO ABIERTO VS CARPA SOLAR) -->
+      <section class="screen" id="scr-plan">
+        <div id="winner-summary-box"></div>
+
+        <div class="card">
+          <h2 class="step-title">Tus cultivos elegidos</h2>
+          <p class="step-hint">Evaluados con el motor satelital NASA (CERES + MERRA-2) y la lectura de tu parcela:</p>
+          <div id="chosen-vegetables-results"></div>
+        </div>
+
+        <details class="more-details" style="margin-bottom: 16px;">
+          <summary>Ver las otras 2 opciones de rotación y límites científicos</summary>
+          <div id="other-rotations-list" style="margin-top: 10px;"></div>
+        </details>
+      </section>
+
+      <!-- PANTALLA 3: PLANTA EN 3D Y VARIEDADES RECOMENDADAS -->
+      <section class="screen" id="scr-3d">
+        <div class="card">
+          <h2 class="step-title">Explora tu cultivo en 3D</h2>
+          <p class="step-hint">Gira el modelo 3D con tu dedo y revisa sus variedades bolivianas y época de siembra.</p>
+
+          <select id="select-3d-crop" class="select-clean" style="margin-bottom: 12px;"></select>
+
+          <canvas id="farmer-3d-canvas"></canvas>
+
+          <div id="farmer-3d-info" style="margin-top: 14px;"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- NAVEGACIÓN INFERIOR DE 3 PASOS CLAROS -->
+    <nav class="bottom-bar">
+      <button class="nav-item active" data-target="scr-parcela">
+        <span>🌦️</span>
+        <span>1. Clima y Parcela</span>
+      </button>
+      <button class="nav-item" data-target="scr-plan">
+        <span>✅</span>
+        <span>2. Qué Sembrar</span>
+      </button>
+      <button class="nav-item" data-target="scr-3d">
+        <span>🧊</span>
+        <span>3. Planta 3D</span>
+      </button>
+    </nav>
+  </div>
+
+
+  <script>
+    const DB = {"inicial": "patacamaya_01", "regiones": {"patacamaya_01": {"nombre": "Patacamaya", "casos": {"agua": {"id": "rotacion_2", "nombre": "Secuencia Conservacionista Resiliente (Quinua -> Ca\u00f1ahua -> Tarwi/Haba)", "puntaje": 84, "pasos": ["A\u00f1o 1: Quinua (Chenopodium quinoa)", "A\u00f1o 2: Ca\u00f1ahua (Chenopodium pallidicaule)", "A\u00f1o 3: Tarwi / Haba (Lupinus mutabilis / Vicia faba)"], "motivo": "Alternativa recomendada (Secuencia Conservacionista Resiliente (Quinua -> Ca\u00f1ahua -> Tarwi/Haba)) con 84/100 pts (c\u00e1lculo exacto 84.08, superando por +4.11 pts a la siguiente opci\u00f3n). Criterios favorables donde obtuvo la mayor evaluaci\u00f3n: conservaci\u00f3n de agua (r=0.91, aporte=41.0 pts); producci\u00f3n agr\u00edcola/forrajera (r=0.87, aporte=17.4 pts). Criterios que redujeron su puntuaci\u00f3n relativa: recuperaci\u00f3n del suelo (r=0.73 vs 0.95 de la mejor en ese criterio). Influencia de prioridades del agricultor (agua=0.45, suelo=0.35, produccion=0.20): en el criterio prioritario de conservaci\u00f3n de agua (w=0.45) alcanz\u00f3 r=0.91. Diagn\u00f3stico agroclim\u00e1tico: Precipitaci\u00f3n acumulada (717.2 mm) cubre satisfactoriamente la demanda de la secuencia. Incluye leguminosa altoandina (tarwi/haba) que repone nitr\u00f3geno parcialmente en el tercer a\u00f1o.", "pesos": [45, 35, 20], "alternativas": ["Secuencia Intensiva Tradicional (Papa -> Quinua -> Cebada) \u00b7 53/100", "Secuencia Regenerativa Suelo-Forraje (Cebada+Vicia -> Tarwi -> Cobertura/Descanso Mejorado) \u00b7 80/100"]}, "suelo": {"id": "rotacion_3", "nombre": "Secuencia Regenerativa Suelo-Forraje (Cebada+Vicia -> Tarwi -> Cobertura/Descanso Mejorado)", "puntaje": 95, "pasos": ["A\u00f1o 1: Asociaci\u00f3n Cebada + Vicia forrajera (Hordeum vulgare + Vicia sativa)", "A\u00f1o 2: Tarwi (Lupinus mutabilis)", "A\u00f1o 3: Cobertura vegetal protectora / Descanso mejorado con leguminosa"], "motivo": "Alternativa recomendada (Secuencia Regenerativa Suelo-Forraje (Cebada+Vicia -> Tarwi -> Cobertura/Descanso Mejorado)) con 95/100 pts (c\u00e1lculo exacto 95.25, superando por +21.75 pts a la siguiente opci\u00f3n). Criterios favorables donde obtuvo la mayor evaluaci\u00f3n: recuperaci\u00f3n del suelo (r=0.95, aporte=95.2 pts). Criterios que redujeron su puntuaci\u00f3n relativa: conservaci\u00f3n de agua (r=0.76 vs 0.91 de la mejor en ese criterio); producci\u00f3n agr\u00edcola/forrajera (r=0.62 vs 0.87 de la mejor en ese criterio). Influencia de prioridades del agricultor (agua=0.00, suelo=1.00, produccion=0.00): en el criterio prioritario de recuperaci\u00f3n del suelo (w=1.00) alcanz\u00f3 r=0.95. Diagn\u00f3stico agroclim\u00e1tico: Precipitaci\u00f3n acumulada (717.2 mm) cubre satisfactoriamente la demanda de la secuencia. M\u00e1ximo aporte de fijaci\u00f3n biol\u00f3gica de nitr\u00f3geno (leguminosas en asociaci\u00f3n y rotaci\u00f3n) y cobertura antierosiva.", "pesos": [0, 100, 0], "alternativas": ["Secuencia Intensiva Tradicional (Papa -> Quinua -> Cebada) \u00b7 39/100", "Secuencia Conservacionista Resiliente (Quinua -> Ca\u00f1ahua -> Tarwi/Haba) \u00b7 74/100"]}, "produccion": {"id": "rotacion_2", "nombre": "Secuencia Conservacionista Resiliente (Quinua -> Ca\u00f1ahua -> Tarwi/Haba)", "puntaje": 87, "pasos": ["A\u00f1o 1: Quinua (Chenopodium quinoa)", "A\u00f1o 2: Ca\u00f1ahua (Chenopodium pallidicaule)", "A\u00f1o 3: Tarwi / Haba (Lupinus mutabilis / Vicia faba)"], "motivo": "Alternativa recomendada (Secuencia Conservacionista Resiliente (Quinua -> Ca\u00f1ahua -> Tarwi/Haba)) con 87/100 pts (c\u00e1lculo exacto 87.00, superando por +24.86 pts a la siguiente opci\u00f3n). Criterios favorables donde obtuvo la mayor evaluaci\u00f3n: conservaci\u00f3n de agua (r=0.91, aporte=0.0 pts); producci\u00f3n agr\u00edcola/forrajera (r=0.87, aporte=87.0 pts). Criterios que redujeron su puntuaci\u00f3n relativa: recuperaci\u00f3n del suelo (r=0.73 vs 0.95 de la mejor en ese criterio). Influencia de prioridades del agricultor (agua=0.00, suelo=0.00, produccion=1.00): en el criterio prioritario de producci\u00f3n agr\u00edcola/forrajera (w=1.00) alcanz\u00f3 r=0.87. Diagn\u00f3stico agroclim\u00e1tico: Precipitaci\u00f3n acumulada (717.2 mm) cubre satisfactoriamente la demanda de la secuencia. Incluye leguminosa altoandina (tarwi/haba) que repone nitr\u00f3geno parcialmente en el tercer a\u00f1o.", "pesos": [0, 0, 100], "alternativas": ["Secuencia Intensiva Tradicional (Papa -> Quinua -> Cebada) \u00b7 58/100", "Secuencia Regenerativa Suelo-Forraje (Cebada+Vicia -> Tarwi -> Cobertura/Descanso Mejorado) \u00b7 62/100"]}}, "periodo": "2024-09-01 \u2014 2025-04-30", "lluvia": 717.24, "heladas": 17, "fuente": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MIN%2CT2M_MAX%2CRH2M&community=AG&longitude=-67.9167&latitude=-17.2333&start=20240901&end=20250430&format=JSON"}, "viacha_01": {"nombre": "Viacha", "casos": {"agua": {"id": "rotacion_2", "nombre": "Secuencia Conservacionista Resiliente (Quinua -> Ca\u00f1ahua -> Tarwi/Haba)", "puntaje": 83, "pasos": ["A\u00f1o 1: Quinua (Chenopodium quinoa)", "A\u00f1o 2: Ca\u00f1ahua (Chenopodium pallidicaule)", "A\u00f1o 3: Tarwi / Haba (Lupinus mutabilis / Vicia faba)"], "motivo": "Alternativa recomendada (Secuencia Conservacionista Resiliente (Quinua -> Ca\u00f1ahua -> Tarwi/Haba)) con 83/100 pts (c\u00e1lculo exacto 82.88, superando por +1.74 pts a la siguiente opci\u00f3n). Criterios favorables donde obtuvo la mayor evaluaci\u00f3n: conservaci\u00f3n de agua (r=0.91, aporte=41.0 pts). Criterios que redujeron su puntuaci\u00f3n relativa: recuperaci\u00f3n del suelo (r=0.73 vs 0.95 de la mejor en ese criterio); producci\u00f3n agr\u00edcola/forrajera (r=0.81 vs 0.92 de la mejor en ese criterio). Influencia de prioridades del agricultor (agua=0.45, suelo=0.35, produccion=0.20): en el criterio prioritario de conservaci\u00f3n de agua (w=0.45) alcanz\u00f3 r=0.91. Diagn\u00f3stico agroclim\u00e1tico: Precipitaci\u00f3n acumulada (811.6 mm) cubre satisfactoriamente la demanda de la secuencia. Incluye leguminosa altoandina (tarwi/haba) que repone nitr\u00f3geno parcialmente en el tercer a\u00f1o.", "pesos": [45, 35, 20], "alternativas": ["Secuencia Intensiva Tradicional (Papa -> Quinua -> Cebada) \u00b7 60/100", "Secuencia Regenerativa Suelo-Forraje (Cebada+Vicia -> Tarwi -> Cobertura/Descanso Mejorado) \u00b7 81/100"]}, "suelo": {"id": "rotacion_3", "nombre": "Secuencia Regenerativa Suelo-Forraje (Cebada+Vicia -> Tarwi -> Cobertura/Descanso Mejorado)", "puntaje": 95, "pasos": ["A\u00f1o 1: Asociaci\u00f3n Cebada + Vicia forrajera (Hordeum vulgare + Vicia sativa)", "A\u00f1o 2: Tarwi (Lupinus mutabilis)", "A\u00f1o 3: Cobertura vegetal protectora / Descanso mejorado con leguminosa"], "motivo": "Alternativa recomendada (Secuencia Regenerativa Suelo-Forraje (Cebada+Vicia -> Tarwi -> Cobertura/Descanso Mejorado)) con 95/100 pts (c\u00e1lculo exacto 95.25, superando por +21.75 pts a la siguiente opci\u00f3n). Criterios favorables donde obtuvo la mayor evaluaci\u00f3n: recuperaci\u00f3n del suelo (r=0.95, aporte=95.2 pts). Criterios que redujeron su puntuaci\u00f3n relativa: conservaci\u00f3n de agua (r=0.76 vs 0.91 de la mejor en ese criterio); producci\u00f3n agr\u00edcola/forrajera (r=0.68 vs 0.92 de la mejor en ese criterio). Influencia de prioridades del agricultor (agua=0.00, suelo=1.00, produccion=0.00): en el criterio prioritario de recuperaci\u00f3n del suelo (w=1.00) alcanz\u00f3 r=0.95. Diagn\u00f3stico agroclim\u00e1tico: Precipitaci\u00f3n acumulada (811.6 mm) cubre satisfactoriamente la demanda de la secuencia. M\u00e1ximo aporte de fijaci\u00f3n biol\u00f3gica de nitr\u00f3geno (leguminosas en asociaci\u00f3n y rotaci\u00f3n) y cobertura antierosiva.", "pesos": [0, 100, 0], "alternativas": ["Secuencia Intensiva Tradicional (Papa -> Quinua -> Cebada) \u00b7 39/100", "Secuencia Conservacionista Resiliente (Quinua -> Ca\u00f1ahua -> Tarwi/Haba) \u00b7 74/100"]}, "produccion": {"id": "rotacion_1", "nombre": "Secuencia Intensiva Tradicional (Papa -> Quinua -> Cebada)", "puntaje": 92, "pasos": ["A\u00f1o 1: Papa (Solanum tuberosum ssp. andigena)", "A\u00f1o 2: Quinua (Chenopodium quinoa)", "A\u00f1o 3: Cebada (Hordeum vulgare)"], "motivo": "Alternativa recomendada (Secuencia Intensiva Tradicional (Papa -> Quinua -> Cebada)) con 92/100 pts (c\u00e1lculo exacto 92.00, superando por +11.00 pts a la siguiente opci\u00f3n). Criterios favorables donde obtuvo la mayor evaluaci\u00f3n: producci\u00f3n agr\u00edcola/forrajera (r=0.92, aporte=92.0 pts). Criterios que redujeron su puntuaci\u00f3n relativa: conservaci\u00f3n de agua (r=0.62 vs 0.91 de la mejor en ese criterio); recuperaci\u00f3n del suelo (r=0.39 vs 0.95 de la mejor en ese criterio). Influencia de prioridades del agricultor (agua=0.00, suelo=0.00, produccion=1.00): en el criterio prioritario de producci\u00f3n agr\u00edcola/forrajera (w=1.00) alcanz\u00f3 r=0.92. Diagn\u00f3stico agroclim\u00e1tico: Precipitaci\u00f3n acumulada (811.6 mm) cubre satisfactoriamente la demanda de la secuencia. R\u00e9gimen t\u00e9rmico m\u00ednimo (T2M_MIN=-2.3 \u00b0C) compatible con el ciclo productivo.", "pesos": [0, 0, 100], "alternativas": ["Secuencia Conservacionista Resiliente (Quinua -> Ca\u00f1ahua -> Tarwi/Haba) \u00b7 81/100", "Secuencia Regenerativa Suelo-Forraje (Cebada+Vicia -> Tarwi -> Cobertura/Descanso Mejorado) \u00b7 68/100"]}}, "periodo": "2024-09-01 \u2014 2025-04-30", "lluvia": 811.63, "heladas": 5, "fuente": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MIN%2CT2M_MAX%2CRH2M&community=AG&longitude=-68.3017&latitude=-16.6533&start=20240901&end=20250430&format=JSON"}}, "catalogo_rudy_27": [{"id_cultivo": "canahua_illimani", "grupo_alimentario": "grano_andino", "nombre_comun": "Ca\u00f1ahua (Ka\u00f1awa)", "nombre_cientifico": "Chenopodium pallidicaule", "ecotipos_sugeridos": ["Illimani", "Kullaka", "Sajsa", "Condoriri"], "rol_agronomico": "grano_resiliente", "precipitacion_min_mm": 150.0, "precipitacion_optima_min_mm": 250.0, "precipitacion_optima_max_mm": 550.0, "temperatura_minima_critica_c": -8.0, "dias_helada_max_tolerables": 65, "max_heladas_floracion_tolerables": 4.0, "max_dias_veranillo_tolerables": 22.0, "gdd_base4_minimo": 900.0, "radiacion_ceres_optima_mj_m2": 20.0, "humedad_radicular_min_pct": 35.0, "ventana_siembra_recomendada": "Octubre a primera quincena de Noviembre", "manejo_recomendado": "M\u00e1xima resistencia a heladas negras y sequ\u00eda; dejar rastrojo para proteger el suelo.", "fuente_documental": "Jacobsen et al. (2005); Tapia & Fries (2007, FAO)", "altitud_min": 3500, "altitud_max": 4350, "ph_min": 5.5, "ph_max": 8.2, "forma_3d": "planta_canahua", "color_primario": "#9a3412", "color_secundario": "#fb923c", "icono": "\ud83c\udf3e"}, {"id_cultivo": "quinua_altiplano", "grupo_alimentario": "grano_andino", "nombre_comun": "Quinua de Altiplano Norte/Centro", "nombre_cientifico": "Chenopodium quinoa", "ecotipos_sugeridos": ["Jacha Grano", "Kurmi", "Patacamaya", "Blanquita", "amarilla Marangani"], "rol_agronomico": "grano_resiliente", "precipitacion_min_mm": 220.0, "precipitacion_optima_min_mm": 320.0, "precipitacion_optima_max_mm": 650.0, "temperatura_minima_critica_c": -6.0, "dias_helada_max_tolerables": 45, "max_heladas_floracion_tolerables": 2.0, "max_dias_veranillo_tolerables": 18.0, "gdd_base4_minimo": 1100.0, "radiacion_ceres_optima_mj_m2": 20.5, "humedad_radicular_min_pct": 40.0, "ventana_siembra_recomendada": "Septiembre a Octubre (seg\u00fan humedad GWETTOP de inicio de lluvias)", "manejo_recomendado": "Evitar suelos anegables en campa\u00f1as > 700 mm (construir camellones o drenes).", "fuente_documental": "Geerts et al. (2006); Jacobsen et al. (2005)", "altitud_min": 3200, "altitud_max": 4150, "ph_min": 6.0, "ph_max": 8.5, "forma_3d": "panoja_quinua", "color_primario": "#881337", "color_secundario": "#e11d48", "icono": "\ud83c\udf3e"}, {"id_cultivo": "papa_amarga_luki", "grupo_alimentario": "tuberculo_andino", "nombre_comun": "Papa Amarga (para Chu\u00f1o/Tunta)", "nombre_cientifico": "Solanum juzepczukii / Solanum curtilobum", "ecotipos_sugeridos": ["Luk'i", "Choquepito", "Kaisalla", "Pi\u00f1aza"], "rol_agronomico": "cabecera_comercial", "precipitacion_min_mm": 300.0, "precipitacion_optima_min_mm": 400.0, "precipitacion_optima_max_mm": 700.0, "temperatura_minima_critica_c": -5.5, "dias_helada_max_tolerables": 40, "max_heladas_floracion_tolerables": 2.5, "max_dias_veranillo_tolerables": 15.0, "gdd_base4_minimo": 1050.0, "radiacion_ceres_optima_mj_m2": 20.0, "humedad_radicular_min_pct": 45.0, "ventana_siembra_recomendada": "Octubre a Noviembre", "manejo_recomendado": "Sustituto seguro de la papa dulce en zonas con m\u00ednimas entre -4.0 \u00b0C y -6.5 \u00b0C (Patacamaya).", "fuente_documental": "Tapia & Fries (2007, FAO); Cat\u00e1logo PROINPA", "altitud_min": 3700, "altitud_max": 4300, "ph_min": 5.2, "ph_max": 7.5, "forma_3d": "tuberculo_papa", "color_primario": "#581c87", "color_secundario": "#a855f7", "icono": "\ud83e\udd54"}, {"id_cultivo": "papa_dulce_waycha", "grupo_alimentario": "tuberculo_andino", "nombre_comun": "Papa Dulce Comercial", "nombre_cientifico": "Solanum tuberosum ssp. andigena", "ecotipos_sugeridos": ["Waych'a Pace\u00f1a", "Imilla Negra", "Sani Imilla", "Desir\u00e9e"], "rol_agronomico": "cabecera_comercial", "precipitacion_min_mm": 420.0, "precipitacion_optima_min_mm": 500.0, "precipitacion_optima_max_mm": 800.0, "temperatura_minima_critica_c": -2.8, "dias_helada_max_tolerables": 15, "max_heladas_floracion_tolerables": 0.8, "max_dias_veranillo_tolerables": 12.0, "gdd_base4_minimo": 1200.0, "radiacion_ceres_optima_mj_m2": 20.5, "humedad_radicular_min_pct": 55.0, "ventana_siembra_recomendada": "Segunda quincena de Octubre a Noviembre", "manejo_recomendado": "Cultivar en zonas abrigadas o campa\u00f1as con T2M_MIN > -3.0 \u00b0C (Viacha) y buen aporque.", "fuente_documental": "Geerts et al. (2006); INIAF / PROINPA", "altitud_min": 2800, "altitud_max": 3980, "ph_min": 5.5, "ph_max": 7.2, "forma_3d": "tuberculo_papa", "color_primario": "#78350f", "color_secundario": "#d97706", "icono": "\ud83e\udd54"}, {"id_cultivo": "oca_altoandina", "grupo_alimentario": "tuberculo_andino", "nombre_comun": "Oca Altoandina", "nombre_cientifico": "Oxalis tuberosa", "ecotipos_sugeridos": ["K'ellu Oca (Amarilla)", "Wila Oca (Roja)", "Overa", "Lluch'u Oca"], "rol_agronomico": "cabecera_comercial", "precipitacion_min_mm": 380.0, "precipitacion_optima_min_mm": 480.0, "precipitacion_optima_max_mm": 800.0, "temperatura_minima_critica_c": -4.0, "dias_helada_max_tolerables": 22, "max_heladas_floracion_tolerables": 1.2, "max_dias_veranillo_tolerables": 13.0, "gdd_base4_minimo": 1150.0, "radiacion_ceres_optima_mj_m2": 20.0, "humedad_radicular_min_pct": 52.0, "ventana_siembra_recomendada": "Septiembre a Octubre", "manejo_recomendado": "Excelente rotaci\u00f3n tras papa; soleado post-cosecha incrementa az\u00facares gracias a radiaci\u00f3n CERES.", "fuente_documental": "Tapia & Fries (2007, FAO); PROINPA", "altitud_min": 3200, "altitud_max": 4050, "ph_min": 5.5, "ph_max": 7.5, "forma_3d": "tuberculo_oca", "color_primario": "#b91c1c", "color_secundario": "#facc15", "icono": "\ud83c\udf60"}, {"id_cultivo": "papalisa_ulluco", "grupo_alimentario": "tuberculo_andino", "nombre_comun": "Papalisa (Ulluco)", "nombre_cientifico": "Ullucus tuberosus", "ecotipos_sugeridos": ["Lisa Amarilla", "Chaska", "Puka Lisa", "Manzana Lisa"], "rol_agronomico": "cabecera_comercial", "precipitacion_min_mm": 420.0, "precipitacion_optima_min_mm": 520.0, "precipitacion_optima_max_mm": 820.0, "temperatura_minima_critica_c": -3.5, "dias_helada_max_tolerables": 18, "max_heladas_floracion_tolerables": 1.0, "max_dias_veranillo_tolerables": 12.0, "gdd_base4_minimo": 1180.0, "radiacion_ceres_optima_mj_m2": 20.0, "humedad_radicular_min_pct": 56.0, "ventana_siembra_recomendada": "Octubre a primera quincena de Noviembre", "manejo_recomendado": "Requiere buena humedad ed\u00e1fica (GWETROOT > 55%); muy apta para Viacha.", "fuente_documental": "Tapia & Fries (2007, FAO)", "altitud_min": 3200, "altitud_max": 4000, "ph_min": 5.5, "ph_max": 7.2, "forma_3d": "tuberculo_papa", "color_primario": "#ca8a04", "color_secundario": "#ec4899", "icono": "\ud83e\udd54"}, {"id_cultivo": "isano_mashua", "grupo_alimentario": "tuberculo_andino", "nombre_comun": "Isa\u00f1o (Mashua)", "nombre_cientifico": "Tropaeolum tuberosum", "ecotipos_sugeridos": ["K'ellu Isa\u00f1o", "Ch'iyar Isa\u00f1o (Negro)", "Zapallo Isa\u00f1o"], "rol_agronomico": "cabecera_comercial", "precipitacion_min_mm": 340.0, "precipitacion_optima_min_mm": 440.0, "precipitacion_optima_max_mm": 780.0, "temperatura_minima_critica_c": -4.8, "dias_helada_max_tolerables": 30, "max_heladas_floracion_tolerables": 1.8, "max_dias_veranillo_tolerables": 15.0, "gdd_base4_minimo": 1100.0, "radiacion_ceres_optima_mj_m2": 20.0, "humedad_radicular_min_pct": 48.0, "ventana_siembra_recomendada": "Septiembre a Octubre", "manejo_recomendado": "Efecto nematicida natural en el suelo (isotiocianatos); ideal para sanear parcelas paperas.", "fuente_documental": "Tapia & Fries (2007, FAO); Ortu\u00f1o et al. (2013)", "altitud_min": 3200, "altitud_max": 4100, "ph_min": 5.3, "ph_max": 7.5, "forma_3d": "tuberculo_oca", "color_primario": "#4c1d95", "color_secundario": "#eab308", "icono": "\ud83c\udf60"}, {"id_cultivo": "tarwi_andino", "grupo_alimentario": "leguminosa_forraje", "nombre_comun": "Tarwi (Chocho Altoandino)", "nombre_cientifico": "Lupinus mutabilis", "ecotipos_sugeridos": ["Carabuco", "Titicaca", "Andenes", "Chumpi"], "rol_agronomico": "leguminosa_fijadora_n", "precipitacion_min_mm": 320.0, "precipitacion_optima_min_mm": 420.0, "precipitacion_optima_max_mm": 750.0, "temperatura_minima_critica_c": -4.8, "dias_helada_max_tolerables": 28, "max_heladas_floracion_tolerables": 1.5, "max_dias_veranillo_tolerables": 16.0, "gdd_base4_minimo": 1250.0, "radiacion_ceres_optima_mj_m2": 20.5, "humedad_radicular_min_pct": 45.0, "ventana_siembra_recomendada": "Octubre (requiere ciclo largo para maduraci\u00f3n completa)", "manejo_recomendado": "Fija 60-100 kg N/ha mediante simbiosis; excelente antecesor para quinua o cereales.", "fuente_documental": "Tapia & Fries (2007, FAO); Ortu\u00f1o et al. (2013)", "altitud_min": 2800, "altitud_max": 3980, "ph_min": 5.5, "ph_max": 7.5, "forma_3d": "vaina_leguminosa", "color_primario": "#1e3a8a", "color_secundario": "#38bdf8", "icono": "\ud83e\uded8"}, {"id_cultivo": "haba_altura", "grupo_alimentario": "leguminosa_forraje", "nombre_comun": "Haba de Altura (Vaina Verde y Grano Seco)", "nombre_cientifico": "Vicia faba", "ecotipos_sugeridos": ["Usnayo", "Gigante de Copacabana", "Pairumani", "Turiza"], "rol_agronomico": "leguminosa_fijadora_n", "precipitacion_min_mm": 430.0, "precipitacion_optima_min_mm": 520.0, "precipitacion_optima_max_mm": 850.0, "temperatura_minima_critica_c": -3.8, "dias_helada_max_tolerables": 18, "max_heladas_floracion_tolerables": 1.0, "max_dias_veranillo_tolerables": 12.5, "gdd_base4_minimo": 1200.0, "radiacion_ceres_optima_mj_m2": 20.0, "humedad_radicular_min_pct": 55.0, "ventana_siembra_recomendada": "Septiembre a Octubre", "manejo_recomendado": "Doble prop\u00f3sito (hortaliza en vaina verde y leguminosa seca); alta fijaci\u00f3n de nitr\u00f3geno en Viacha.", "fuente_documental": "Tapia & Fries (2007, FAO)", "altitud_min": 2500, "altitud_max": 3950, "ph_min": 6.0, "ph_max": 7.8, "forma_3d": "vaina_leguminosa", "color_primario": "#14532d", "color_secundario": "#22c55e", "icono": "\ud83e\udedb"}, {"id_cultivo": "arveja_altoandina", "grupo_alimentario": "leguminosa_forraje", "nombre_comun": "Arveja / Guisante Verde de Altura", "nombre_cientifico": "Pisum sativum", "ecotipos_sugeridos": ["Alderman", "Rondo", "Utrillo", "Blanca Criolla"], "rol_agronomico": "leguminosa_fijadora_n", "precipitacion_min_mm": 360.0, "precipitacion_optima_min_mm": 450.0, "precipitacion_optima_max_mm": 760.0, "temperatura_minima_critica_c": -4.2, "dias_helada_max_tolerables": 22, "max_heladas_floracion_tolerables": 1.2, "max_dias_veranillo_tolerables": 13.5, "gdd_base4_minimo": 1080.0, "radiacion_ceres_optima_mj_m2": 20.0, "humedad_radicular_min_pct": 50.0, "ventana_siembra_recomendada": "Octubre a Noviembre", "manejo_recomendado": "Ciclo m\u00e1s corto que el haba; fija nitr\u00f3geno y produce vaina verde comercial.", "fuente_documental": "INIAF Bolivia; Manual Hort\u00edcola FAO", "altitud_min": 2400, "altitud_max": 3950, "ph_min": 6.0, "ph_max": 7.5, "forma_3d": "vaina_leguminosa", "color_primario": "#15803d", "color_secundario": "#4ade80", "icono": "\ud83e\udedb"}, {"id_cultivo": "cebada_vicia_forraje", "grupo_alimentario": "leguminosa_forraje", "nombre_comun": "Asociaci\u00f3n Cebada + Vicia / Avena Forrajera", "nombre_cientifico": "Hordeum vulgare + Vicia sativa / Avena sativa", "ecotipos_sugeridos": ["Cebada IBTA-80 + Vicia com\u00fan", "Avena \u00c1guila + Vicia", "Avena Gaviota"], "rol_agronomico": "forraje_cobertura", "precipitacion_min_mm": 250.0, "precipitacion_optima_min_mm": 360.0, "precipitacion_optima_max_mm": 750.0, "temperatura_minima_critica_c": -5.5, "dias_helada_max_tolerables": 38, "max_heladas_floracion_tolerables": 2.5, "max_dias_veranillo_tolerables": 16.0, "gdd_base4_minimo": 1000.0, "radiacion_ceres_optima_mj_m2": 19.5, "humedad_radicular_min_pct": 42.0, "ventana_siembra_recomendada": "Noviembre a Diciembre (permite siembra tard\u00eda)", "manejo_recomendado": "Maximiza cobertura contra erosi\u00f3n e\u00f3lica (WS2M), forraje proteico y materia org\u00e1nica.", "fuente_documental": "Ortu\u00f1o et al. (2013, PROINPA/FAO)", "altitud_min": 2800, "altitud_max": 4250, "ph_min": 5.8, "ph_max": 8.2, "forma_3d": "planta_canahua", "color_primario": "#ca8a04", "color_secundario": "#fde047", "icono": "\ud83c\udf3f"}, {"id_cultivo": "cebolla_altura", "grupo_alimentario": "verdura_hortaliza", "nombre_comun": "Cebolla de Altura (Bulbo y Verdeo)", "nombre_cientifico": "Allium cepa", "ecotipos_sugeridos": ["Roja Arequipe\u00f1a", "Globosa de Puna", "Siberia", "Texas Early Grano"], "rol_agronomico": "hortaliza_comercial", "precipitacion_min_mm": 380.0, "precipitacion_optima_min_mm": 480.0, "precipitacion_optima_max_mm": 780.0, "temperatura_minima_critica_c": -5.0, "dias_helada_max_tolerables": 32, "max_heladas_floracion_tolerables": 2.0, "max_dias_veranillo_tolerables": 13.0, "gdd_base4_minimo": 1100.0, "radiacion_ceres_optima_mj_m2": 20.0, "humedad_radicular_min_pct": 52.0, "ventana_siembra_recomendada": "Alm\u00e1cigo Agosto-Septiembre; trasplante Octubre-Noviembre", "manejo_recomendado": "Verdura altamente resistente a heladas en campo abierto en Viacha y Patacamaya con riego de apoyo.", "fuente_documental": "FAO (2012) Horticultura Altoandina; INIAF", "altitud_min": 2200, "altitud_max": 4000, "ph_min": 6.0, "ph_max": 7.6, "forma_3d": "bulbo_raiz", "color_primario": "#9d174d", "color_secundario": "#22c55e", "icono": "\ud83e\uddc5"}, {"id_cultivo": "zanahoria_chantenay", "grupo_alimentario": "verdura_hortaliza", "nombre_comun": "Zanahoria Altoandina", "nombre_cientifico": "Daucus carota", "ecotipos_sugeridos": ["Chantenay Red Core", "Nantes Mejorada", "Danvers 126", "Royal Chantenay"], "rol_agronomico": "hortaliza_comercial", "precipitacion_min_mm": 400.0, "precipitacion_optima_min_mm": 500.0, "precipitacion_optima_max_mm": 800.0, "temperatura_minima_critica_c": -4.5, "dias_helada_max_tolerables": 28, "max_heladas_floracion_tolerables": 1.8, "max_dias_veranillo_tolerables": 13.0, "gdd_base4_minimo": 1080.0, "radiacion_ceres_optima_mj_m2": 19.8, "humedad_radicular_min_pct": 54.0, "ventana_siembra_recomendada": "Septiembre a Diciembre (siembra directa en platabanda)", "manejo_recomendado": "La variedad Chantenay desarrolla excelente ra\u00edz en suelos francos del Altiplano; tolera heladas.", "fuente_documental": "FAO (2012) Horticultura Altoandina", "altitud_min": 2200, "altitud_max": 3980, "ph_min": 5.8, "ph_max": 7.3, "forma_3d": "bulbo_raiz", "color_primario": "#ea580c", "color_secundario": "#16a34a", "icono": "\ud83e\udd55"}, {"id_cultivo": "betarraga_remolacha", "grupo_alimentario": "verdura_hortaliza", "nombre_comun": "Betarraga / Remolacha de Mesa", "nombre_cientifico": "Beta vulgaris var. conditiva", "ecotipos_sugeridos": ["Detroit Dark Red", "Early Wonder", "Crosby Egyptian"], "rol_agronomico": "hortaliza_comercial", "precipitacion_min_mm": 380.0, "precipitacion_optima_min_mm": 470.0, "precipitacion_optima_max_mm": 780.0, "temperatura_minima_critica_c": -4.2, "dias_helada_max_tolerables": 25, "max_heladas_floracion_tolerables": 1.5, "max_dias_veranillo_tolerables": 14.0, "gdd_base4_minimo": 1050.0, "radiacion_ceres_optima_mj_m2": 19.8, "humedad_radicular_min_pct": 50.0, "ventana_siembra_recomendada": "Octubre a Diciembre", "manejo_recomendado": "Tolera suelos ligeramente alcalinos y salinos del Altiplano Central y Norte.", "fuente_documental": "FAO (2012) Horticultura Altoandina", "altitud_min": 2200, "altitud_max": 4050, "ph_min": 6.2, "ph_max": 8.0, "forma_3d": "fruto_tomate", "color_primario": "#831843", "color_secundario": "#be185d", "icono": "\ud83d\udfe3"}, {"id_cultivo": "acelga_espinaca", "grupo_alimentario": "verdura_hortaliza", "nombre_comun": "Acelga y Espinaca de Altura", "nombre_cientifico": "Beta vulgaris var. cicla / Spinacia oleracea", "ecotipos_sugeridos": ["Acelga Fordhook Giant", "Penca Blanca Ancha", "Espinaca Viroflay", "Bloomsdale"], "rol_agronomico": "hortaliza_comercial", "precipitacion_min_mm": 380.0, "precipitacion_optima_min_mm": 480.0, "precipitacion_optima_max_mm": 800.0, "temperatura_minima_critica_c": -5.0, "dias_helada_max_tolerables": 32, "max_heladas_floracion_tolerables": 2.0, "max_dias_veranillo_tolerables": 13.0, "gdd_base4_minimo": 950.0, "radiacion_ceres_optima_mj_m2": 19.5, "humedad_radicular_min_pct": 52.0, "ventana_siembra_recomendada": "Septiembre a Febrero (escalonada a campo abierto); todo el a\u00f1o en carpa solar", "manejo_recomendado": "Verdura de hoja de ciclo corto (65-80 d\u00edas) con alta tolerancia a heladas ligeras.", "fuente_documental": "FAO (2012) Horticultura Altoandina", "altitud_min": 2000, "altitud_max": 4100, "ph_min": 6.0, "ph_max": 7.8, "forma_3d": "planta_canahua", "color_primario": "#065f46", "color_secundario": "#10b981", "icono": "\ud83e\udd6c"}, {"id_cultivo": "rabanito_nabo", "grupo_alimentario": "verdura_hortaliza", "nombre_comun": "Rabanito y Nabo Altoandino", "nombre_cientifico": "Raphanus sativus / Brassica rapa", "ecotipos_sugeridos": ["Rabanito Crimson Giant", "Cherry Belle", "Sparkler", "Nabo Purple Top"], "rol_agronomico": "hortaliza_comercial", "precipitacion_min_mm": 320.0, "precipitacion_optima_min_mm": 420.0, "precipitacion_optima_max_mm": 750.0, "temperatura_minima_critica_c": -4.8, "dias_helada_max_tolerables": 30, "max_heladas_floracion_tolerables": 2.0, "max_dias_veranillo_tolerables": 14.0, "gdd_base4_minimo": 850.0, "radiacion_ceres_optima_mj_m2": 19.0, "humedad_radicular_min_pct": 48.0, "ventana_siembra_recomendada": "Octubre a Marzo (cosecha r\u00e1pida en 35-45 d\u00edas)", "manejo_recomendado": "Ideal para rotaci\u00f3n hort\u00edcola r\u00e1pida entre campa\u00f1as o asociaci\u00f3n en bordes de parcela.", "fuente_documental": "FAO (2012) Horticultura Altoandina", "altitud_min": 2000, "altitud_max": 4150, "ph_min": 5.8, "ph_max": 7.6, "forma_3d": "fruto_tomate", "color_primario": "#e11d48", "color_secundario": "#fda4af", "icono": "\ud83d\udd34"}, {"id_cultivo": "ajo_altura", "grupo_alimentario": "verdura_hortaliza", "nombre_comun": "Ajo Criollo de Altura", "nombre_cientifico": "Allium sativum", "ecotipos_sugeridos": ["Morado Arequipe\u00f1o", "Rosado Criollo", "Blanco de Puna", "Cinco Clavos"], "rol_agronomico": "hortaliza_comercial", "precipitacion_min_mm": 360.0, "precipitacion_optima_min_mm": 450.0, "precipitacion_optima_max_mm": 720.0, "temperatura_minima_critica_c": -5.5, "dias_helada_max_tolerables": 38, "max_heladas_floracion_tolerables": 2.2, "max_dias_veranillo_tolerables": 15.0, "gdd_base4_minimo": 1100.0, "radiacion_ceres_optima_mj_m2": 20.5, "humedad_radicular_min_pct": 48.0, "ventana_siembra_recomendada": "Junio-Agosto (con riego) o Septiembre-Octubre (inicio de lluvias)", "manejo_recomendado": "El fr\u00edo invernal del Altiplano favorece la diferenciaci\u00f3n de dientes (vernalizaci\u00f3n natural).", "fuente_documental": "INIAF Bolivia; Manual de Allium en los Andes", "altitud_min": 2200, "altitud_max": 3980, "ph_min": 6.0, "ph_max": 7.5, "forma_3d": "bulbo_raiz", "color_primario": "#e2e8f0", "color_secundario": "#a855f7", "icono": "\ud83e\uddc4"}, {"id_cultivo": "lechuga_repollo_brocoli", "grupo_alimentario": "verdura_hortaliza", "nombre_comun": "Lechuga, Repollo y Br\u00f3coli", "nombre_cientifico": "Lactuca sativa / Brassica oleracea", "ecotipos_sugeridos": ["Lechuga Grand Rapids", "Great Lakes", "Repollo Coraz\u00f3n de Buey", "Br\u00f3coli Calabrese"], "rol_agronomico": "hortaliza_comercial", "precipitacion_min_mm": 440.0, "precipitacion_optima_min_mm": 540.0, "precipitacion_optima_max_mm": 820.0, "temperatura_minima_critica_c": -3.2, "dias_helada_max_tolerables": 16, "max_heladas_floracion_tolerables": 0.9, "max_dias_veranillo_tolerables": 11.0, "gdd_base4_minimo": 1150.0, "radiacion_ceres_optima_mj_m2": 20.0, "humedad_radicular_min_pct": 56.0, "ventana_siembra_recomendada": "Octubre a Febrero en Viacha (campo abierto con manta t\u00e9rmica); todo el a\u00f1o en carpa solar", "manejo_recomendado": "Sensible a heladas fuertes (\u003c -3.5 \u00b0C); en Patacamaya usar microt\u00fanel o carpa solar.", "fuente_documental": "FAO (2012) Horticultura Altoandina", "altitud_min": 2000, "altitud_max": 3950, "ph_min": 6.0, "ph_max": 7.4, "forma_3d": "fruto_tomate", "color_primario": "#16a34a", "color_secundario": "#86efac", "icono": "\ud83e\udd66"}]};
+const I18N = {
+
+      es: {
+
+        btn_lang: "🌐 ES",
+
+        btn_account: "👤 Mi Cuenta",
+
+        btn_web: "⚙️ Web",
+
+        badge_pilot: "👤 Productor Piloto • toca 'Mi Cuenta'",
+
+        step1_title: "1. Clima en 3D y tu parcela",
+
+        step1_hint: "Gira la parcela 3D con tu dedo, toca el cielo o elige el clima actual.",
+
+        w_normal: "Normal",
+
+        w_tormenta: "Tormenta",
+
+        w_sequia: "Seco / Sol",
+
+        w_helada: "Helada",
+
+        hud_soil: "💧 Suelo:",
+
+        hud_badge_tormenta: "⛈️ Tormenta y lluvia intensa",
+
+        hud_hint_tormenta: "⚡ Toca para lanzar rayo",
+
+        hud_badge_sequia: "☀️ Seco y radiación CERES alta",
+
+        hud_hint_sequia: "🌵 Suelo con poca agua",
+
+        hud_badge_helada: "❄️ Helada nocturna andina",
+
+        hud_hint_helada: "🧊 Escarcha bajo cero",
+
+        hud_badge_normal: "⛅ Clima templado de altura",
+
+        hud_hint_normal: "🔄 Arrastra para girar 3D",
+
+        lbl_temp: "🌡️ Temperatura (°C)",
+
+        lbl_hum: "💧 Humedad suelo (%)",
+
+        lbl_prio: "🎯 ¿Qué es lo más importante para ti este año?",
+
+        prio_agua: "💧 Cuidar Agua",
+
+        prio_suelo: "🌱 Abonar Suelo",
+
+        prio_forraje: "🦙 Forraje / Ganado",
+
+        step2_title: "2. ¿Qué deseas cultivar? (27 opciones)",
+
+        step2_hint: "Elige por grupo (Granos, Tubérculos, Verduras o Frutas). Te diremos si crecen a campo abierto o en carpa solar.",
+
+        cat_verdura: "🥕 Verduras (10)",
+
+        cat_tuberculo: "🥔 Tubérculos (5)",
+
+        cat_grano: "🌾 Granos (3)",
+
+        cat_leguminosa: "🫛 Leguminosas (4)",
+
+        cat_fruta: "🍓 Frutas (5)",
+
+        cta_sugerencia: "Ver sugerencia para mi parcela →",
+
+        plan_crops_title: "Tus cultivos elegidos (Campo vs. Carpa Solar)",
+
+        plan_crops_hint: "Evaluados con el motor satelital NASA (CERES + MERRA-2) y la lectura de tu parcela:",
+
+        other_rot_summary: "Ver las otras 2 opciones de rotación y límites científicos",
+
+        scr3d_title: "Explora tu cultivo en 3D",
+
+        scr3d_hint: "Gira el modelo 3D con tu dedo y revisa sus variedades bolivianas y época de siembra.",
+
+        user_modal_title: "Registro de Agricultor",
+
+        user_modal_sub: "ASTABLES AGRO 3D • Perfil de Productor",
+
+        user_modal_desc: "Registra tus datos para guardar tu parcela y tus cultivos favoritos, o entra directo con un toque:",
+
+        user_lbl_name: "Nombre del productor o familia",
+
+        user_lbl_com: "Comunidad / Municipio en La Paz",
+
+        user_lbl_contact: "Celular o Correo (opcional)",
+
+        user_lbl_code: "Código acceso",
+
+        user_btn_save: "✅ Guardar y Entrar a mi Parcela",
+
+        user_btn_quick: "⚡ Acceso Rápido Piloto",
+
+        btn_close: "Cerrar",
+
+        btn_save: "Guardar",
+
+        conn_title: "Conectar con la Web y Sensor Pico W",
+
+        conn_desc: "La aplicación funciona 100% sin internet en tu celular. Si deseas sincronizar con la página web o el servidor de telemetría, ingresa la dirección:",
+
+        conn_opt_sim: "Modo: Prueba / Demostración en Campo",
+
+        conn_opt_real: "Modo: Sensor Raspberry Pi Pico W Conectado",
+
+        nav_1: "1. Clima y Parcela",
+
+        nav_2: "2. Qué Sembrar",
+
+        nav_3: "3. Planta 3D",
+
+        plan_pill: "★ PLAN RECOMENDADO POR MOTOR RUDY",
+
+        lbl_open_field: "🌾 Campo Abierto",
+
+        lbl_solar_tent: "🏠 Carpa Solar",
+
+        lbl_varieties: "🌱 Variedades:",
+
+        lbl_sowing: "🗓️ Siembra:",
+
+        btn_view_3d: "🧊 Ver en 3D y ficha completa",
+
+        tag_open: "✅ Campo Abierto",
+
+        tag_riego: "💧 Con Riego / Abrigo",
+
+        tag_carpa: "🏠 Ideal en Carpa Solar",
+
+        advice_open: "Crece muy bien a cielo abierto en tu parcela.",
+
+        advice_riego: "Viable con surcos abrigados o riego de apoyo. En Carpa Solar sube a",
+
+        advice_carpa_a: "A campo abierto sufre por heladas",
+
+        advice_carpa_b: "pero en Carpa Solar / Walipini rinde",
+
+        advice_carpa_c: "gracias al sol andino.",
+
+        rot1_name: "Rotación 1: Intensiva Comercial (Papa primero)",
+
+        rot1_motivo: "Prioriza cosecha comercial inmediata de papa, pero exige más agua y nutrientes el primer año.",
+
+        rot2_name: "Rotación 2: Resiliente y Ahorro de Agua (Quinua → Tarwi)",
+
+        rot2_motivo: "Recomendada por el motor MCDA para cuidar el agua y restaurar nitrógeno del suelo con leguminosas.",
+
+        rot3_name: "Rotación 3: Regenerativa y Forrajera contra Heladas",
+
+        rot3_motivo: "Máxima protección contra heladas severas y erosión; asegura alimento para el ganado y abona el suelo.",
+
+        year_word: "Año",
+
+        rest_word: "Descanso",
+
+        sci_name: "Nombre científico:",
+
+        opt_alt: "Altitud óptima:",
+
+        lbl_var_full: "🌱 Variedades sugeridas:",
+
+        lbl_sow_full: "🗓️ Ventana de siembra:",
+
+        lbl_soil_full: "🧪 Suelo ideal:",
+
+        lbl_mgmt_full: "💡 Manejo recomendado en el Altiplano:"
+
+      },
+
+      ay: {
+
+        btn_lang: "🌐 AY",
+
+        btn_account: "👤 Suti / Cuenta",
+
+        btn_web: "⚙️ Web",
+
+        badge_pilot: "👤 Yapuchiri Piloto • 'Cuenta' llamkt'am",
+
+        step1_title: "1. Pacha 3D ukhamaraki Uraqima",
+
+        step1_hint: "Uraqi 3D luk'anampi muyuyam, alaxpacha llamkt'am jan ukax jichha pacha jajllam.",
+
+        w_normal: "Wali Pacha",
+
+        w_tormenta: "Jallu / Ch'axwa",
+
+        w_sequia: "Waña / Inti",
+
+        w_helada: "Juyphi / Thä",
+
+        hud_soil: "💧 Uraqi:",
+
+        hud_badge_tormenta: "⛈️ Jallu pacha (Tormenta)",
+
+        hud_hint_tormenta: "⚡ Illapu apayaniñataki llamkt'am",
+
+        hud_badge_sequia: "☀️ Waña pacha, Inti lupi (CERES)",
+
+        hud_hint_sequia: "🌵 Uraqi juk'a umaniwa",
+
+        hud_badge_helada: "❄️ Juyphi aruma (Helada)",
+
+        hud_hint_helada: "🧊 Thä pacha (0 °C manqha)",
+
+        hud_badge_normal: "⛅ Altiplano wali pacha",
+
+        hud_hint_normal: "🔄 3D muyuyañataki qatatim",
+
+        lbl_temp: "🌡️ Junt'u / Thä (°C)",
+
+        lbl_hum: "💧 Uraqi mik'i (%)",
+
+        lbl_prio: "🎯 ¿Kunas juk'amp wakiskiri aka maranxa?",
+
+        prio_agua: "💧 Uma Imxaña",
+
+        prio_suelo: "🌱 Uraqi Wanuñchaña",
+
+        prio_forraje: "🦙 Uywa Manq'a",
+
+        step2_title: "2. ¿Kunas yapuchañ munta? (27 ajlliña)",
+
+        step2_hint: "Tama tamanakata jajllam (Jupa, Ch'uqi, Ch'uxña jan ukax Achu). Pampa uraqincha jan ukax Inti utanxacha achuni uk yatiyapxäma.",
+
+        cat_verdura: "🥕 Ch'uxñanaka (10)",
+
+        cat_tuberculo: "🥔 Ch'uqinaka (5)",
+
+        cat_grano: "🌾 Jupanaka (3)",
+
+        cat_leguminosa: "🫛 Jawas / Tawri (4)",
+
+        cat_fruta: "🍓 Achunaka (5)",
+
+        cta_sugerencia: "Uraqimataki yanapa uñjaña →",
+
+        plan_crops_title: "Jajllita yapunakama (Pampa vs. Inti Uta)",
+
+        plan_crops_hint: "NASA satelite (CERES + MERRA-2) ukhamaraki uraqiman uñakipata:",
+
+        other_rot_summary: "Yaqha 2 muytaña thakhinaka ukhamaraki yatiyäwinaka uñjaña",
+
+        scr3d_title: "Yapuma 3D uñakipam",
+
+        scr3d_hint: "Luk'anampi 3D muyuyam, jathanakapa ukat satäwi pacha uñjam.",
+
+        user_modal_title: "Yapuchiri Suti Qillqaña",
+
+        user_modal_sub: "ASTABLES AGRO 3D • Yapuchiri Yatiyawi",
+
+        user_modal_desc: "Uraqima ukhamaraki yapunakama imañataki sutima qillqt'am, jan ukax mä llamkt'añampi mantam:",
+
+        user_lbl_name: "Yapuchiri suti (Suti)",
+
+        user_lbl_com: "Marka / Ayllu (La Paz)",
+
+        user_lbl_contact: "Celular jan ukax Correo",
+
+        user_lbl_code: "Mantaña chimpu",
+
+        user_btn_save: "✅ Imaña ukhamaraki Uraqir Mantaña",
+
+        user_btn_quick: "⚡ Jank'a Mantaña (Piloto)",
+
+        btn_close: "Jist'antaña",
+
+        btn_save: "Imaña",
+
+        conn_title: "Web ukhamaraki Sensor Pico W mayachaña",
+
+        conn_desc: "Aka aplicación celularaman jan internetampis irnaqiwa. Web ukaru mayachañ munsta ukax dirección uñt'ayam:",
+
+        conn_opt_sim: "Yant'aña / Uñacht'ayaña (Simulado)",
+
+        conn_opt_real: "Sensor Raspberry Pi Pico W mayachata",
+
+        nav_1: "1. Pacha & Uraqi",
+
+        nav_2: "2. Kuns Sataña",
+
+        nav_3: "3. Ali 3D",
+
+        plan_pill: "★ RUDY MOTORAN YANAPAPA",
+
+        lbl_open_field: "🌾 Pampa Uraqi",
+
+        lbl_solar_tent: "🏠 Inti Uta (Carpa)",
+
+        lbl_varieties: "🌱 Jathanaka:",
+
+        lbl_sowing: "🗓️ Sataña:",
+
+        btn_view_3d: "🧊 3D uñjaña ukhamaraki yatiyawi",
+
+        tag_open: "✅ Pampa Uraqin Wali",
+
+        tag_riego: "💧 Uma / Imxatampi",
+
+        tag_carpa: "🏠 Inti Utan Wali",
+
+        advice_open: "Pampa uraqiman wali sum achu.",
+
+        advice_riego: "Uma warxatañampi waliwa. Inti Utanx juk'amp jilxati:",
+
+        advice_carpa_a: "Pampa uraqin juyphimpi t'aqhisi",
+
+        advice_carpa_b: "ukampis Inti Utanx wali achu:",
+
+        advice_carpa_c: "Inti lupimpi.",
+
+        rot1_name: "Muytaña 1: Aljañataki (Ch'uqi nayraqata)",
+
+        rot1_motivo: "Nayra mara ch'uqi aljañatakiwa, ukampis juk'amp uma ukat wanu muni.",
+
+        rot2_name: "Muytaña 2: Uma Imxaña (Jupa → Tawri)",
+
+        rot2_motivo: "Uma imxañataki ukhamaraki jawas/tawrimpi uraqi ch'amanchañataki wali askiwa.",
+
+        rot3_name: "Muytaña 3: Juyphi Jark'aqiri ukhamaraki Uywa Manq'a",
+
+        rot3_motivo: "Juyphita jark'aqi; uywanakataki manq'a utjayi ukhamaraki uraqi wanuñchi.",
+
+        year_word: "Mara",
+
+        rest_word: "Samaraña (Descanso)",
+
+        sci_name: "Suti científico:",
+
+        opt_alt: "Altu pampa:",
+
+        lbl_var_full: "🌱 Jathanaka:",
+
+        lbl_sow_full: "🗓️ Sataña pacha:",
+
+        lbl_soil_full: "🧪 Uraqi (pH):",
+
+        lbl_mgmt_full: "💡 Altiplano uraqin luräwi:"
+
+      }
+
+    };
+
+
+
+    const AYMARA_CROPS = {
+
+      canahua_illimani: "Qañawa (Cañahua)",
+
+      quinua_altiplano: "Jupa (Quinua)",
+
+      amaranto_millmi: "Millmi / Kiwicha",
+
+      papa_amarga_luki: "Ch'uqi Luk'i (Papa amarga)",
+
+      papa_dulce_waycha: "Ch'uqi Waych'a (Papa dulce)",
+
+      oca_altoandina: "Apilla (Oca)",
+
+      papalisa_ulluco: "Ulluku / Papalisa",
+
+      isano_mashua: "Isañu (Isaño)",
+
+      tarwi_andino: "Tawri (Tarwi)",
+
+      haba_altura: "Jawas (Haba)",
+
+      arveja_altoandina: "Alwirja (Arveja)",
+
+      cebada_vicia_forraje: "Siwara + Vicia (Cebada)",
+
+      cebolla_altura: "Sipuylla (Cebolla)",
+
+      zanahoria_chantenay: "Sanawriya (Zanahoria)",
+
+      betarraga_remolacha: "Witarraqa (Betarraga)",
+
+      acelga_espinaca: "Ch'uxña Asilga / Ispinaka",
+
+      rabanito_nabo: "Rawanitu / Nawu",
+
+      ajo_altura: "Ajusa (Ajo)",
+
+      lechuga_repollo_brocoli: "Lichuwa / Ripullu",
+
+      tomate_carpa_solar: "Tumati (Carpa Solar)",
+
+      pepino_pimenton_locoto: "Luqutu / Pipinu",
+
+      zapallo_zucchini: "Sapallu (Zapallo)",
+
+      frutilla_fresa_altura: "Phrisa / Phrutilla",
+
+      aguaymanto_uchuva_capuli: "Uchuwa / Kapuli",
+
+      tumbo_andino: "Tumpu (Tumbo)",
+
+      frambuesa_mora_altura: "Phrampuwisa / Mura",
+
+      duraznero_manzano_altura: "Turasnu / Mansana"
+
+    };
+
+
+
+    
+    let currentLang = 'es';
+    try { if(localStorage.getItem('pacharota_lang')==='ay') currentLang='ay'; } catch {}
+    function t(key){return I18N[currentLang][key];}
+    function cropLabel(c){return currentLang==='ay' ? AYMARA_CROPS[c.id_cultivo] || c.nombre_comun : c.nombre_comun;}
+    // Mapa rápido por ID de las 18 opciones del motor de Rudy
+    const RUDY_MAP = {};
+    DB.catalogo_rudy_27.forEach((c) => { RUDY_MAP[c.id_cultivo] = c; });
+
+    // Selección inicial representativa (verduras, granos, tubérculos y fruta)
+    const selectedCrops = new Set([
+      "quinua_altiplano",
+      "canahua_illimani",
+      "papa_dulce_waycha",
+      "tarwi_andino",
+      "zanahoria_chantenay",
+      "cebolla_altura",
+      "tomate_carpa_solar",
+      "frutilla_fresa_altura"
+    ]);
+
+    document.querySelectorAll('.cat-pill').forEach(b=>{const n=DB.catalogo_rudy_27.filter(c=>c.grupo_alimentario===b.dataset.cat).length;b.textContent=b.textContent.replace(/\(\d+\)/, '('+n+')');});
+    for (const id of selectedCrops) if (!RUDY_MAP[id]) selectedCrops.delete(id);
+    let activeCategory = "verdura_hortaliza";
+    let weatherMode = "templado"; // templado | tormenta | sequia | helada
+    let activeGoal = "agua";      // agua | suelo | forraje
+    function goToScreen(screenId) {
+      document.querySelectorAll(".nav-item").forEach((b) => {
+        b.classList.toggle("active", b.dataset.target === screenId);
+      });
+      document.querySelectorAll(".screen").forEach((s) => {
+        s.classList.toggle("active", s.id === screenId);
+      });
+      document.querySelector(".content-scroll").scrollTop = 0;
+    }
+
+    document.querySelectorAll(".nav-item").forEach((btn) => {
+      btn.addEventListener("click", () => goToScreen(btn.dataset.target));
+    });
+
+    // Selector de prioridad MCDA (Agua, Suelo, Forraje)
+    document.querySelectorAll(".prio-pill").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        activeGoal = btn.dataset.goal;
+        document.querySelectorAll(".prio-pill").forEach((b) => b.classList.toggle("active", b === btn));
+        ejecutarFlujoAnalisis();
+      });
+    });
+
+    document.getElementById("inp-parcela").addEventListener("change", ejecutarFlujoAnalisis);
+    document.getElementById("inp-campana").addEventListener("change", () => {
+      const camp = document.getElementById("inp-campana").value;
+      if (camp === "2023_2024") setWeatherMode("sequia", true);
+      else if (camp === "2025_2026") setWeatherMode("tormenta", true);
+      else setWeatherMode("templado", true);
+    });
+
+    // =========================================================================
+    // MOTOR 3D DEL CLIMA Y LA PARCELA (Nubes 3D, Tormenta, Rayos, Sol/Sequía, Helada)
+    // =========================================================================
+    const wCanvas = document.getElementById("weather-3d-canvas");
+    const wCtx = wCanvas.getContext("2d");
+    let wRotY = -0.45, wRotX = 0.42, wDrag = false, wLastX = 0, wLastY = 0;
+    let lightningTimer = 0;
+    let lightningBolt = null;
+    let sunPulse = 0;
+
+    const clouds3D = [
+      { x: -45, y: -55, z: -20, puffs: [{dx:0,dy:0,dz:0,r:22}, {dx:18,dy:3,dz:4,r:17}, {dx:-16,dy:4,dz:-3,r:16}, {dx:6,dy:-8,dz:5,r:16}] },
+      { x: 42,  y: -62, z: 25,  puffs: [{dx:0,dy:0,dz:0,r:24}, {dx:20,dy:2,dz:-4,r:18}, {dx:-18,dy:5,dz:4,r:17}, {dx:-4,dy:-9,dz:2,r:15}] },
+      { x: 5,   y: -48, z: -45, puffs: [{dx:0,dy:0,dz:0,r:19}, {dx:15,dy:3,dz:2,r:14}, {dx:-14,dy:3,dz:-2,r:14}] }
+    ];
+
+    const particles3D = Array.from({ length: 75 }, () => ({
+      x: (Math.random() - 0.5) * 160,
+      y: -70 + Math.random() * 120,
+      z: (Math.random() - 0.5) * 160,
+      speed: 1.5 + Math.random() * 2.2,
+      size: 1.5 + Math.random() * 2
+    }));
+
+    function triggerLightning() {
+      lightningTimer = 14;
+      const startX = (Math.random() - 0.5) * 60;
+      lightningBolt = [
+        { x: startX, y: -52, z: 0 },
+        { x: startX + 12, y: -25, z: 6 },
+        { x: startX - 8, y: 2, z: -4 },
+        { x: startX + 6, y: 30, z: 2 }
+      ];
+    }
+
+    function syncWeatherHUD() {
+      const temperatura = parseFloat(document.getElementById("inp-temp").value) || 8.4;
+      const h = parseFloat(document.getElementById("inp-hum").value) || 23.5;
+      document.getElementById("w3d-temp-text").textContent = `🌡️ ${temperatura.toFixed(1)} °C`;
+      document.getElementById("w3d-soil-text").textContent = `${t("hud_soil")} ${h.toFixed(1)}%`;
+
+      const badge = document.getElementById("w3d-badge");
+      const hint = document.getElementById("w3d-hint");
+      if (weatherMode === "tormenta") {
+        badge.textContent = t("hud_badge_tormenta");
+        hint.textContent = t("hud_hint_tormenta");
+      } else if (weatherMode === "sequia") {
+        badge.textContent = t("hud_badge_sequia");
+        hint.textContent = t("hud_hint_sequia");
+      } else if (weatherMode === "helada") {
+        badge.textContent = t("hud_badge_helada");
+        hint.textContent = t("hud_hint_helada");
+      } else {
+        badge.textContent = t("hud_badge_normal");
+        hint.textContent = t("hud_hint_normal");
+      }
+    }
+
+    function setWeatherMode(mode, updateInputs = true) {
+      weatherMode = mode;
+      document.querySelectorAll(".weather-btn").forEach((b) => {
+        b.classList.toggle("active", b.dataset.weather === mode);
+      });
+
+      if (updateInputs) {
+        const tInput = document.getElementById("inp-temp");
+        const hInput = document.getElementById("inp-hum");
+        if (mode === "tormenta") {
+          tInput.value = "9.5";
+          hInput.value = "44.0";
+          triggerLightning();
+        } else if (mode === "sequia") {
+          tInput.value = "13.2";
+          hInput.value = "12.0";
+        } else if (mode === "helada") {
+          tInput.value = "-2.5";
+          hInput.value = "19.0";
+        } else {
+          tInput.value = "8.4";
+          hInput.value = "23.5";
+        }
+      }
+      syncWeatherHUD();
+      ejecutarFlujoAnalisis();
+    }
+
+    document.querySelectorAll(".weather-btn").forEach((btn) => {
+      btn.addEventListener("click", () => setWeatherMode(btn.dataset.weather, true));
+    });
+
+    function onManualSensorInput() {
+      const t = parseFloat(document.getElementById("inp-temp").value);
+      const h = parseFloat(document.getElementById("inp-hum").value);
+      if (!isNaN(t) && t <= 1.5) weatherMode = "helada";
+      else if (!isNaN(h) && h < 16) weatherMode = "sequia";
+      else if (!isNaN(h) && h > 36) weatherMode = "tormenta";
+      else weatherMode = "templado";
+
+      document.querySelectorAll(".weather-btn").forEach((b) => {
+        b.classList.toggle("active", b.dataset.weather === weatherMode);
+      });
+      syncWeatherHUD();
+      ejecutarFlujoAnalisis();
+    }
+
+    document.getElementById("inp-temp").addEventListener("input", onManualSensorInput);
+    document.getElementById("inp-hum").addEventListener("input", onManualSensorInput);
+
+    let pointerMoved = false;
+    wCanvas.addEventListener("pointerdown", (e) => {
+      wDrag = true;
+      pointerMoved = false;
+      wLastX = e.clientX;
+      wLastY = e.clientY;
+    });
+    window.addEventListener("pointerup", () => {
+      if (wDrag && !pointerMoved) {
+        if (weatherMode === "tormenta") triggerLightning();
+        else sunPulse = 12;
+      }
+      wDrag = false;
+    });
+    wCanvas.addEventListener("pointermove", (e) => {
+      if (!wDrag) return;
+      const dx = e.clientX - wLastX;
+      const dy = e.clientY - wLastY;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) pointerMoved = true;
+      wRotY += dx * 0.012;
+      wRotX = Math.max(0.18, Math.min(0.85, wRotX + dy * 0.01));
+      wLastX = e.clientX;
+      wLastY = e.clientY;
+    });
+
+    function proj3D(x, y, z, cx, cy, cosY, sinY, cosX, sinX) {
+      const x1 = x * cosY - z * sinY;
+      const z1 = z * cosY + x * sinY;
+      const y2 = y * cosX - z1 * sinX;
+      const z2 = z1 * cosX + y * sinX;
+      const sc = 300 / (300 + z2 + 110);
+      return { sx: cx + x1 * sc, sy: cy + y2 * sc, z: z2, sc };
+    }
+
+    function renderWeather3DLoop() {
+      const w = wCanvas.clientWidth || 340;
+      const h = wCanvas.clientHeight || 235;
+      if (wCanvas.width !== w || wCanvas.height !== h) {
+        wCanvas.width = w;
+        wCanvas.height = h;
+      }
+
+      if (!wDrag) wRotY += 0.0045;
+      if (lightningTimer > 0) lightningTimer--;
+      if (sunPulse > 0) sunPulse--;
+
+      const skyGrad = wCtx.createLinearGradient(0, 0, 0, h);
+      if (weatherMode === "tormenta") {
+        const flash = lightningTimer > 8 ? 0.45 : 0;
+        skyGrad.addColorStop(0, flash ? "#64748b" : "#090d1a");
+        skyGrad.addColorStop(1, flash ? "#94a3b8" : "#1e293b");
+      } else if (weatherMode === "sequia") {
+        skyGrad.addColorStop(0, "#7c2d12");
+        skyGrad.addColorStop(0.55, "#d97706");
+        skyGrad.addColorStop(1, "#fde68a");
+      } else if (weatherMode === "helada") {
+        skyGrad.addColorStop(0, "#020617");
+        skyGrad.addColorStop(0.6, "#0f172a");
+        skyGrad.addColorStop(1, "#1e3a8a");
+      } else {
+        skyGrad.addColorStop(0, "#0f172a");
+        skyGrad.addColorStop(0.6, "#0284c7");
+        skyGrad.addColorStop(1, "#bae6fd");
+      }
+      wCtx.fillStyle = skyGrad;
+      wCtx.fillRect(0, 0, w, h);
+
+      const cx = w / 2;
+      const cy = h * 0.56;
+      const cosY = Math.cos(wRotY), sinY = Math.sin(wRotY);
+      const cosX = Math.cos(wRotX), sinX = Math.sin(wRotX);
+
+      if (weatherMode === "sequia" || weatherMode === "templado") {
+        const sunPos = proj3D(-65, -68, -50, cx, cy, cosY * 0.3, sinY * 0.3, cosX, sinX);
+        const sunR = (weatherMode === "sequia" ? 28 : 20) + sunPulse * 0.8;
+        const radG = wCtx.createRadialGradient(sunPos.sx, sunPos.sy, 2, sunPos.sx, sunPos.sy, sunR * 2.2);
+        radG.addColorStop(0, "#fef08a");
+        radG.addColorStop(0.45, weatherMode === "sequia" ? "rgba(249, 115, 22, 0.65)" : "rgba(250, 204, 21, 0.45)");
+        radG.addColorStop(1, "rgba(250, 204, 21, 0)");
+        wCtx.fillStyle = radG;
+        wCtx.beginPath();
+        wCtx.arc(sunPos.sx, sunPos.sy, sunR * 2.2, 0, Math.PI * 2);
+        wCtx.fill();
+      } else if (weatherMode === "helada") {
+        const moonPos = proj3D(65, -68, -40, cx, cy, cosY * 0.2, sinY * 0.2, cosX, sinX);
+        wCtx.fillStyle = "rgba(186, 230, 253, 0.85)";
+        wCtx.beginPath();
+        wCtx.arc(moonPos.sx, moonPos.sy, 15, 0, Math.PI * 2);
+        wCtx.fill();
+      }
+
+      const S = 68;
+      const topY = 26;
+      const botY = 50;
+
+      const cornersTop = [
+        proj3D(-S, topY, -S, cx, cy, cosY, sinY, cosX, sinX),
+        proj3D( S, topY, -S, cx, cy, cosY, sinY, cosX, sinX),
+        proj3D( S, topY,  S, cx, cy, cosY, sinY, cosX, sinX),
+        proj3D(-S, topY,  S, cx, cy, cosY, sinY, cosX, sinX)
+      ];
+      const cornersBot = [
+        proj3D(-S, botY, -S, cx, cy, cosY, sinY, cosX, sinX),
+        proj3D( S, botY, -S, cx, cy, cosY, sinY, cosX, sinX),
+        proj3D( S, botY,  S, cx, cy, cosY, sinY, cosX, sinX),
+        proj3D(-S, botY,  S, cx, cy, cosY, sinY, cosX, sinX)
+      ];
+
+      for (let i = 0; i < 4; i++) {
+        const j = (i + 1) % 4;
+        wCtx.beginPath();
+        wCtx.moveTo(cornersTop[i].sx, cornersTop[i].sy);
+        wCtx.lineTo(cornersTop[j].sx, cornersTop[j].sy);
+        wCtx.lineTo(cornersBot[j].sx, cornersBot[j].sy);
+        wCtx.lineTo(cornersBot[i].sx, cornersBot[i].sy);
+        wCtx.closePath();
+        wCtx.fillStyle = i % 2 === 0 ? "#451a03" : "#290f02";
+        wCtx.fill();
+      }
+
+      wCtx.beginPath();
+      wCtx.moveTo(cornersTop[0].sx, cornersTop[0].sy);
+      for (let i = 1; i < 4; i++) wCtx.lineTo(cornersTop[i].sx, cornersTop[i].sy);
+      wCtx.closePath();
+      if (weatherMode === "sequia") wCtx.fillStyle = "#b45309";
+      else if (weatherMode === "helada") wCtx.fillStyle = "#93c5fd";
+      else if (weatherMode === "tormenta") wCtx.fillStyle = "#14532d";
+      else wCtx.fillStyle = "#15803d";
+      wCtx.fill();
+      wCtx.lineWidth = 1.5;
+      wCtx.strokeStyle = "#38bdf8";
+      wCtx.stroke();
+
+      for (let f = -48; f <= 48; f += 24) {
+        const pA = proj3D(f, topY, -S + 8, cx, cy, cosY, sinY, cosX, sinX);
+        const pB = proj3D(f, topY,  S - 8, cx, cy, cosY, sinY, cosX, sinX);
+        wCtx.beginPath();
+        wCtx.moveTo(pA.sx, pA.sy);
+        wCtx.lineTo(pB.sx, pB.sy);
+        wCtx.strokeStyle = weatherMode === "helada" ? "rgba(224,242,254,0.65)" : "rgba(20, 83, 45, 0.75)";
+        wCtx.lineWidth = 2.5;
+        wCtx.stroke();
+
+        for (let z = -36; z <= 36; z += 36) {
+          const plantBase = proj3D(f, topY, z, cx, cy, cosY, sinY, cosX, sinX);
+          const plantTop = proj3D(f, topY - 11, z, cx, cy, cosY, sinY, cosX, sinX);
+          wCtx.beginPath();
+          wCtx.moveTo(plantBase.sx, plantBase.sy);
+          wCtx.lineTo(plantTop.sx, plantTop.sy);
+          wCtx.strokeStyle = weatherMode === "sequia" ? "#facc15" : (weatherMode === "helada" ? "#bae6fd" : "#4ade80");
+          wCtx.lineWidth = 2.2;
+          wCtx.stroke();
+          wCtx.beginPath();
+          wCtx.arc(plantTop.sx, plantTop.sy, 3.5 * plantTop.sc, 0, Math.PI * 2);
+          wCtx.fillStyle = weatherMode === "sequia" ? "#f59e0b" : (weatherMode === "helada" ? "#e0f2fe" : "#22c55e");
+          wCtx.fill();
+        }
+      }
+
+      if (weatherMode !== "sequia") {
+        const cloudPuffs = [];
+        clouds3D.forEach((cl, idx) => {
+          const driftX = cl.x + Math.sin(Date.now() * 0.0007 + idx) * 12;
+          cl.puffs.forEach((pf) => {
+            const pt = proj3D(driftX + pf.dx, cl.y + pf.dy, cl.z + pf.dz, cx, cy, cosY, sinY, cosX, sinX);
+            cloudPuffs.push({ sx: pt.sx, sy: pt.sy, z: pt.z, r: pf.r * pt.sc });
+          });
+        });
+        cloudPuffs.sort((a, b) => b.z - a.z);
+        cloudPuffs.forEach((pf) => {
+          const cg = wCtx.createRadialGradient(pf.sx - pf.r * 0.25, pf.sy - pf.r * 0.25, pf.r * 0.1, pf.sx, pf.sy, pf.r);
+          if (weatherMode === "tormenta") {
+            cg.addColorStop(0, "rgba(148, 163, 184, 0.95)");
+            cg.addColorStop(1, "rgba(30, 41, 59, 0.92)");
+          } else if (weatherMode === "helada") {
+            cg.addColorStop(0, "rgba(224, 242, 254, 0.88)");
+            cg.addColorStop(1, "rgba(148, 163, 184, 0.78)");
+          } else {
+            cg.addColorStop(0, "rgba(255, 255, 255, 0.95)");
+            cg.addColorStop(1, "rgba(203, 213, 225, 0.85)");
+          }
+          wCtx.fillStyle = cg;
+          wCtx.beginPath();
+          wCtx.arc(pf.sx, pf.sy, pf.r, 0, Math.PI * 2);
+          wCtx.fill();
+        });
+      }
+
+      if (weatherMode === "tormenta" && Math.random() < 0.025 && lightningTimer === 0) {
+        triggerLightning();
+      }
+      if (lightningTimer > 0 && lightningBolt) {
+        wCtx.save();
+        wCtx.beginPath();
+        lightningBolt.forEach((pt, i) => {
+          const p = proj3D(pt.x, pt.y, pt.z, cx, cy, cosY, sinY, cosX, sinX);
+          if (i === 0) wCtx.moveTo(p.sx, p.sy);
+          else wCtx.lineTo(p.sx, p.sy);
+        });
+        wCtx.strokeStyle = "#fef08a";
+        wCtx.lineWidth = 3.2;
+        wCtx.shadowColor = "#38bdf8";
+        wCtx.shadowBlur = 14;
+        wCtx.stroke();
+        wCtx.restore();
+      }
+
+      particles3D.forEach((pt) => {
+        if (weatherMode === "tormenta") {
+          pt.y += pt.speed * 2.6;
+          if (pt.y > topY) pt.y = -65;
+          const p1 = proj3D(pt.x, pt.y, pt.z, cx, cy, cosY, sinY, cosX, sinX);
+          const p2 = proj3D(pt.x, pt.y + 9, pt.z, cx, cy, cosY, sinY, cosX, sinX);
+          wCtx.beginPath();
+          wCtx.moveTo(p1.sx, p1.sy);
+          wCtx.lineTo(p2.sx, p2.sy);
+          wCtx.strokeStyle = "rgba(56, 189, 248, 0.78)";
+          wCtx.lineWidth = 1.4;
+          wCtx.stroke();
+        } else if (weatherMode === "helada") {
+          pt.y += pt.speed * 0.55;
+          pt.x += Math.sin(Date.now() * 0.002 + pt.z) * 0.25;
+          if (pt.y > topY) pt.y = -65;
+          const p = proj3D(pt.x, pt.y, pt.z, cx, cy, cosY, sinY, cosX, sinX);
+          wCtx.beginPath();
+          wCtx.arc(p.sx, p.sy, pt.size * p.sc, 0, Math.PI * 2);
+          wCtx.fillStyle = "rgba(224, 242, 254, 0.9)";
+          wCtx.fill();
+        } else if (weatherMode === "sequia") {
+          pt.y -= pt.speed * 0.45;
+          if (pt.y < -65) pt.y = topY;
+          const p = proj3D(pt.x, pt.y, pt.z, cx, cy, cosY, sinY, cosX, sinX);
+          wCtx.beginPath();
+          wCtx.arc(p.sx, p.sy, pt.size * 0.85 * p.sc, 0, Math.PI * 2);
+          wCtx.fillStyle = "rgba(251, 191, 36, 0.55)";
+          wCtx.fill();
+        }
+      });
+
+      requestAnimationFrame(renderWeather3DLoop);
+    }
+
+    // =========================================================================
+    // PESTAÑAS DE LOS 5 GRUPOS ALIMENTARIOS Y CHIPS DE LAS 18 OPCIONES (RUDY)
+    // =========================================================================
+    document.querySelectorAll(".cat-pill").forEach((pill) => {
+      pill.addEventListener("click", () => {
+        activeCategory = pill.dataset.cat;
+        document.querySelectorAll(".cat-pill").forEach((p) => p.classList.toggle("active", p === pill));
+        renderChipsAndSelect();
+      });
+    });
+
+    function renderChipsAndSelect() {
+      const grid = document.getElementById("crops-chip-grid");
+      grid.innerHTML = "";
+      const sel3d = document.getElementById("select-3d-crop");
+      const populate3d = sel3d.options.length === 0;
+
+      DB.catalogo_rudy_27.forEach((c) => {
+        if (c.grupo_alimentario === activeCategory) {
+          const isSel = selectedCrops.has(c.id_cultivo);
+          const chip = document.createElement("div");
+          chip.className = "chip" + (isSel ? " selected" : "");
+          const shortName = cropLabel(c).split("(")[0].split("/")[0].trim();
+          chip.innerHTML = `<span>${isSel ? "✅" : c.icono}</span><span>${shortName}</span>`;
+          chip.onclick = () => {
+            if (selectedCrops.has(c.id_cultivo) && selectedCrops.size > 1) selectedCrops.delete(c.id_cultivo);
+            else selectedCrops.add(c.id_cultivo);
+            renderChipsAndSelect();
+            ejecutarFlujoAnalisis();
+          };
+          grid.appendChild(chip);
+        }
+
+        if (populate3d) {
+          const opt = document.createElement("option");
+          opt.value = c.id_cultivo;
+          opt.textContent = `${c.icono} ${cropLabel(c)}`;
+          sel3d.appendChild(opt);
+        }
+      });
+
+      if (populate3d) {
+        sel3d.onchange = () => update3DModel(sel3d.value);
+        update3DModel("quinua_altiplano");
+      }
+    }
+
+    // =========================================================================
+    // MOTOR LOCAL FIEL A `motor/evaluador.py` Y `motor/recomendador_cultivos.py`
+    // =========================================================================
+    function ejecutarFlujoAnalisis() {
+      const sitio=document.getElementById("inp-parcela").value;
+      const datos=DB.regiones[sitio], caso=datos.casos[activeGoal];
+      document.getElementById("user-badge-top").textContent=datos.nombre+" · NASA POWER";
+      const plan=document.getElementById("winner-summary-box");
+      plan.replaceChildren();
+      function linea(parent,tag,value){const el=document.createElement(tag);el.textContent=value;parent.append(el);}
+      const rotKey="rot"+caso.id.slice(-1);
+      linea(plan,"h2",(currentLang==="ay"?t(rotKey+"_name"):caso.nombre)+" · "+caso.puntaje+"/100");
+      const traducirPaso = paso => {
+        if(currentLang==="es") return paso;
+        const nombres = {"Quinua":"quinua_altiplano","Cañahua":"canahua_illimani","Tarwi":"tarwi_andino","Haba":"haba_altura","Asociación Cebada + Vicia forrajera":"cebada_vicia_forraje","Papa":"papa_dulce_waycha"};
+        let texto=paso.replace(/^Año/,t("year_word")).replace("Cobertura vegetal protectora / Descanso mejorado con leguminosa",t("rest_word"));
+        for(const [es,id] of Object.entries(nombres)) texto=texto.replace(es,AYMARA_CROPS[id]||es);
+        return texto;
+      };
+      caso.pasos.forEach(p=>linea(plan,"p",traducirPaso(p)));
+      if(currentLang==="ay"){const detalle=document.createElement("details");linea(detalle,"summary","Detalle técnico · Español");linea(detalle,"p",caso.motivo);plan.append(detalle);}else linea(plan,"p",caso.motivo);
+      linea(plan,"p",(currentLang==="ay"?"Uma / Uraqi / Achu · ":"Ajuste experimental · agua / suelo / producción: ")+caso.pesos.join(" / "));
+      linea(plan,"p",datos.periodo+" · "+datos.lluvia+(currentLang==="ay"?" mm jallu · ":" mm de lluvia · ")+datos.heladas+(currentLang==="ay"?" juyphi uru":" días con helada"));
+      const lista=document.getElementById("chosen-vegetables-results");lista.replaceChildren();
+      for(const id of selectedCrops){const btn=document.createElement("button");btn.className="btn-link-3d";btn.textContent=cropLabel(RUDY_MAP[id])+" · "+t("btn_view_3d");btn.onclick=()=>{update3DModel(id);document.getElementById("select-3d-crop").value=id;goToScreen("scr-3d")};lista.append(btn);}
+      document.getElementById("other-rotations-list").textContent=caso.alternativas.join(" · ");
+    }
+    document.getElementById("btn-ver-recomendacion").onclick = () => {
+      ejecutarFlujoAnalisis();
+      goToScreen("scr-plan");
+    };
+
+    // =========================================================================
+    // VISOR BOTÁNICO 3D SOMBREADO (SOPORTA LAS 18 OPCIONES DE RUDY)
+    // =========================================================================
+    let currentFaces = [];
+    let rotY = 0.45, rotX = 0.24, dragging = false, lastX = 0, lastY = 0;
+
+    function hexToRgb(hex) {
+      const clean = (hex || "#38bdf8").replace("#", "");
+      const num = parseInt(clean, 16);
+      return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+    }
+
+    function update3DModel(cropId) {
+      const f = RUDY_MAP[cropId] || RUDY_MAP["quinua_altiplano"];
+      const rings = 22, slices = 18;
+      const grid = [];
+      for (let i = 0; i <= rings; i++) {
+        const u = i / rings;
+        const row = [];
+        for (let j = 0; j < slices; j++) {
+          const v = (j / slices) * Math.PI * 2;
+          let x = 0, y = (0.5 - u) * 135, z = 0, col = f.color_primario;
+          if (f.forma_3d === "panoja_quinua") {
+            const r = Math.max(5, 44 * Math.sin(u * Math.PI) * (1 + 0.26 * Math.sin(u * 25) * Math.cos(v * 5)));
+            x = Math.cos(v) * r; z = Math.sin(v) * r;
+            col = (i + j) % 3 === 0 ? f.color_secundario : f.color_primario;
+          } else if (f.forma_3d === "vaina_leguminosa") {
+            const bump = 1 + 0.24 * Math.pow(Math.sin(u * Math.PI * 4), 2);
+            const r = 25 * Math.sin(u * Math.PI) * bump;
+            x = Math.sin(u * Math.PI) * 15 + Math.cos(v) * r;
+            z = Math.sin(v) * (r * 0.65);
+          } else if (f.forma_3d === "tuberculo_oca") {
+            const r = 31 * Math.pow(Math.sin(u * Math.PI), 0.65) * (1 + 0.22 * Math.sin(u * Math.PI * 8));
+            x = Math.cos(v) * r; z = Math.sin(v) * r;
+            col = Math.sin(u * Math.PI * 8) < -0.5 ? f.color_secundario : f.color_primario;
+          } else if (f.forma_3d === "bulbo_raiz") {
+            const r = 36 * Math.pow(1 - u, 0.55) * Math.sin(u * Math.PI);
+            x = Math.cos(v) * r; z = Math.sin(v) * r;
+            col = u < 0.22 ? f.color_secundario : f.color_primario;
+          } else if (f.forma_3d === "baya_fruta") {
+            const phi = u * Math.PI;
+            const heart = 42 * Math.sin(phi) * (1 - 0.25 * Math.cos(phi)) * (1 + 0.08 * Math.sin(u * 30) * Math.cos(v * 8));
+            x = Math.cos(v) * heart;
+            y = Math.cos(phi) * 46;
+            z = Math.sin(v) * heart;
+            col = (i + j) % 4 === 0 ? f.color_secundario : f.color_primario;
+          } else {
+            const phi = u * Math.PI;
+            const r = 48 * (1 + 0.12 * Math.sin(phi * 3) * Math.cos(v * 4));
+            x = Math.sin(phi) * Math.cos(v) * r;
+            y = Math.cos(phi) * 42;
+            z = Math.sin(phi) * Math.sin(v) * r;
+          }
+          row.push({ x, y, z, col });
+        }
+        grid.push(row);
+      }
+      currentFaces = [];
+      for (let i = 0; i < rings; i++) {
+        for (let j = 0; j < slices; j++) {
+          const jn = (j + 1) % slices;
+          currentFaces.push({
+            pts: [grid[i][j], grid[i + 1][j], grid[i + 1][jn], grid[i][jn]],
+            rgb: hexToRgb(grid[i][j].col)
+          });
+        }
+      }
+
+      const variedades = (f.ecotipos_sugeridos || []).join(", ");
+      document.getElementById("farmer-3d-info").innerHTML = `
+        <h3 style="margin:0 0 4px 0; font-size:1.08rem;">${f.icono} ${cropLabel(f)}</h3>
+        <div style="font-size:0.79rem; color:var(--cyan); margin-bottom:10px;">
+          ${t("sci_name")} <em>${f.nombre_cientifico}</em> • ${t("opt_alt")} <strong>${f.altitud_min}–${f.altitud_max} m s.n.m.</strong>
+        </div>
+        <div class="meta-pills" style="margin-bottom:10px;">
+          <span class="meta-pill">${t("lbl_var_full")} <strong>${variedades}</strong></span>
+          <span class="meta-pill">${t("lbl_sow_full")} <strong>${f.ventana_siembra_recomendada}</strong></span>
+          <span class="meta-pill">${t("lbl_soil_full")} <strong>pH ${f.ph_min}–${f.ph_max}</strong></span>
+        </div>
+        <div style="font-size:0.83rem; color:#dcfce7; background:var(--accent-soft); border:1px solid var(--accent); padding:10px 12px; border-radius:12px;">
+          <strong>${t("lbl_mgmt_full")}</strong><br/>${f.manejo_recomendado}
+        </div>
+      `;
+    }
+
+    const canvas3d = document.getElementById("farmer-3d-canvas");
+    const ctx3d = canvas3d.getContext("2d");
+    canvas3d.addEventListener("pointerdown", (e) => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
+    window.addEventListener("pointerup", () => { dragging = false; });
+    canvas3d.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      rotY += (e.clientX - lastX) * 0.012;
+      rotX = Math.max(-1, Math.min(1, rotX + (e.clientY - lastY) * 0.012));
+      lastX = e.clientX; lastY = e.clientY;
+    });
+
+    function loop3D() {
+      const w = canvas3d.clientWidth || 320;
+      const h = canvas3d.clientHeight || 275;
+      if (canvas3d.width !== w || canvas3d.height !== h) {
+        canvas3d.width = w; canvas3d.height = h;
+      }
+      ctx3d.clearRect(0, 0, w, h);
+      if (!dragging) rotY += 0.01;
+
+      const cx = w / 2, cy = h / 2;
+      const cy1 = Math.cos(rotY), sy1 = Math.sin(rotY);
+      const cx1 = Math.cos(rotX), sx1 = Math.sin(rotX);
+
+      const projected = currentFaces.map((f) => {
+        const pts = f.pts.map((p) => {
+          const x1 = p.x * cy1 - p.z * sy1;
+          const z1 = p.z * cy1 + p.x * sy1;
+          const y2 = p.y * cx1 - z1 * sx1;
+          const z2 = z1 * cx1 + p.y * sx1;
+          const sc = 290 / (290 + z2 + 95);
+          return { sx: cx + x1 * sc, sy: cy + y2 * sc, z: z2 };
+        });
+        const avgZ = (pts[0].z + pts[1].z + pts[2].z + pts[3].z) * 0.25;
+        const light = Math.max(0.35, Math.min(1.15, (105 - avgZ) / 145));
+        const r = Math.min(255, Math.round(f.rgb.r * light));
+        const g = Math.min(255, Math.round(f.rgb.g * light));
+        const b = Math.min(255, Math.round(f.rgb.b * light));
+        return { pts, avgZ, fill: `rgb(${r},${g},${b})` };
+      });
+
+      projected.sort((a, b) => b.avgZ - a.avgZ);
+      projected.forEach((d) => {
+        ctx3d.beginPath();
+        ctx3d.moveTo(d.pts[0].sx, d.pts[0].sy);
+        for (let i = 1; i < d.pts.length; i++) ctx3d.lineTo(d.pts[i].sx, d.pts[i].sy);
+        ctx3d.closePath();
+        ctx3d.fillStyle = d.fill;
+        ctx3d.fill();
+        ctx3d.strokeStyle = d.fill;
+        ctx3d.lineWidth = 0.5;
+        ctx3d.stroke();
+      });
+
+      requestAnimationFrame(loop3D);
+    }
+
+    document.getElementById("inp-parcela").value=DB.inicial;
+const labels=[];
+    for(const [selector, keys] of [[".step-title", ["step1_title", "step2_title", "plan_crops_title", "scr3d_title"]], [".step-hint", ["step1_hint", "step2_hint", "plan_crops_hint", "scr3d_hint"]], [".weather-btn span:last-child", ["w_normal", "w_tormenta", "w_sequia", "w_helada"]], [".reading-label", ["lbl_temp", "lbl_hum", "lbl_prio"]], [".prio-pill", ["prio_agua", "prio_suelo", "prio_forraje"]], [".cat-pill", ["cat_verdura", "cat_tuberculo", "cat_grano", "cat_leguminosa"]], ["#btn-ver-recomendacion", ["cta_sugerencia"]], ["#scr-plan summary", ["other_rot_summary"]], [".nav-item span:last-child", ["nav_1", "nav_2", "nav_3"]]]){
+      document.querySelectorAll(selector).forEach((node,i)=>labels.push({node,key:keys[i],es:node.textContent.trim()}));
+    }
+    function actualizarIdioma(){
+      document.documentElement.lang=currentLang;
+      document.getElementById('btn-lang-toggle').textContent=currentLang==='es'?'Aymara':'Español';
+      for(const {node,key,es} of labels){
+        let value=currentLang==='ay' ? t(key)||es : es;
+        if(currentLang==='ay' && node.matches('.cat-pill')) value=value.replace(/\(\d+\)/,es.match(/\(\d+\)/)?.[0]||'');
+        if(key==='step2_title') value=value.replace('27','18');
+        if(currentLang==='ay' && ['lbl_temp','lbl_hum'].includes(key))value+=' · simulación';
+        node.textContent=value;
+      }
+      const sel=document.getElementById('select-3d-crop'), prev=sel.value || 'quinua_altiplano';
+      sel.replaceChildren();renderChipsAndSelect();sel.value=prev;update3DModel(prev);syncWeatherHUD();ejecutarFlujoAnalisis();
+    }
+    document.getElementById('btn-lang-toggle').onclick=()=>{
+      currentLang=currentLang==='es'?'ay':'es';
+      try {localStorage.setItem('pacharota_lang',currentLang);} catch {}
+      actualizarIdioma();
+    };
+    actualizarIdioma();
+    requestAnimationFrame(renderWeather3DLoop);
+    requestAnimationFrame(loop3D);
+  </script>
+</body>
+</html>

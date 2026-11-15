@@ -1,4 +1,4 @@
-# FARMASTRA · Adquisición 1.1
+# AYNOKA · Adquisición 1.1
 
 Simulador web local de 1 a 12 torres de parcela y una estación central. Creado en una carpeta independiente por solicitud de Román. Las versiones PAGINA WEB ASTRA no se modifican.
 

@@ -1,4 +1,4 @@
-"""Entrega móvil y guía de alta. La cuenta se crea en el portal ASTABLES."""
+"""Entrega móvil y guía de alta. La cuenta se crea en el portal AYNOKA."""
 import json
 import os
 from html import escape
@@ -48,22 +48,22 @@ def mostrar_pacharota(sitio, catalogo):
     pesos = st.session_state.get("prioridades_guardadas", dict(agua=45,suelo=35,produccion=20))
     guia, telefono = st.columns([1, 1.15], gap="large")
     with guia:
-        st.subheader("Tu cuenta ASTABLES")
+        st.subheader("Tu cuenta AYNOKA")
         if urlsplit(portal).scheme in {"https", "http"} and urlsplit(portal).hostname:
-            st.write("Crea tu cuenta en el portal ASTABLES y verifica tu correo para iniciar sesión.")
+            st.write("Crea tu cuenta en el portal AYNOKA y verifica tu correo para iniciar sesión.")
             st.link_button("Abrir portal de cuentas", portal)
         else:
             mostrar_cuentas_demo()
-        st.subheader("Lleva PachaRota a tu parcela")
+        st.subheader("Lleva AYNOKA a tu parcela")
         st.write("Descarga el APK directamente desde esta página y ábrelo en tu teléfono Android para instalar la versión de prueba.")
         try:
             app = version_movil(sitio, catalogo, pesos)
         except ValueError as exc:
             st.warning(str(exc))
             return
-        apk = ASSETS.parent / "descargas" / "PachaRota-1.3-prueba.apk"
+        apk = ASSETS.parent / "descargas" / "AYNOKA-1.4-prueba.apk"
         if apk.is_file():
-            st.download_button("Descargar PachaRota para Android", apk.read_bytes(),
+            st.download_button("Descargar AYNOKA para Android", apk.read_bytes(),
                                file_name=apk.name, mime="application/vnd.android.package-archive",
                                type="primary", on_click="ignore")
         else:
@@ -75,8 +75,8 @@ def mostrar_pacharota(sitio, catalogo):
         border:6px solid #23382e;border-radius:34px;padding:11px 5px 12px;box-shadow:0 3px 8px #0004}}
         .speaker{{width:48px;height:4px;background:#799183;margin:0 auto 8px;border-radius:8px}}
         iframe{{width:100%;height:calc(100% - 14px);border:0;border-radius:20px}}</style>
-        <div class="phone"><div class="speaker"></div><iframe sandbox="allow-scripts" title="Pantalla inicial de PachaRota"
+        <div class="phone"><div class="speaker"></div><iframe sandbox="allow-scripts" title="Pantalla inicial de AYNOKA"
         srcdoc="{escape(app, quote=True)}"></iframe></div>""", height=836)
-        st.caption("Vista previa de PachaRota · Puedes probarla aquí.")
+        st.caption("Vista previa de AYNOKA · Puedes probarla aquí.")
 
 

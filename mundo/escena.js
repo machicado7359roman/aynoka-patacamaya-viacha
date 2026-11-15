@@ -13,7 +13,7 @@ const canvas = document.querySelector('canvas');
 const stations = [
   {name:'Rotaciones', x:-7, z:-.7, verb:'Comparar rotaciones'},
   {name:'Estación climática', x:4, z:-3.4, verb:'Consultar el clima'},
-  {name:'Aplicación del agricultor', x:6.65, z:23.15, verb:'Abrir PachaRota'},
+  {name:'Aplicación del agricultor', x:6.65, z:23.15, verb:'Abrir AYNOKA'},
   {name:'Sensor de suelo', x:8, z:2.1, verb:'Ver sensor de suelo'},
 ];
 function start() {
