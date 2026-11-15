@@ -4,6 +4,8 @@ Demostración del Sistema Híbrido de Apoyo a la Decisión para la Rotación de 
 
 ## Abrir
 
+**[Abrir la página web ASTRA](https://astra-altiplano-2026.streamlit.app/)**
+
 La versión web se despliega en Streamlit Community Cloud desde `app/main.py`. Para ejecutarla localmente:
 
 ```bash

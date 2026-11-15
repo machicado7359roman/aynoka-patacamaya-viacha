@@ -7,13 +7,16 @@ main{height:100dvh;border-radius:0}#caption{top:clamp(16px,3vw,40px);left:clamp(
 #menu{position:absolute;top:18px;right:15px;z-index:2;text-align:right}
 #menu button{background:#faf4e8;color:#304639;border:1px solid #a59b7f;border-radius:12px;padding:8px 12px}
 #destinos{margin-top:6px;display:grid;gap:4px}#destinos[hidden],#touch[hidden]{display:none}
-@media(max-width:520px){#menu{top:auto;bottom:105px}#caption h1{font-size:28px}}
+@media(max-width:520px){#menu{top:12px;bottom:auto}#caption h1{font-size:28px}}
 #markers button.cerca{background:#744423;border-color:#ffd781}
 #action{left:50%;bottom:25px;transform:translateX(-50%);padding:12px 22px;background:#384434;color:#fff5db;border:2px solid #f5cf84;border-radius:30px;box-shadow:0 4px 18px #42372542}
-@media(max-width:700px){#action{bottom:99px;left:14px;transform:none}}
+@media(max-width:700px){#action{bottom:270px;left:14px;transform:none}}
 @media(pointer:fine){#touch{display:none}}
+#touch{bottom:calc(108px + env(safe-area-inset-bottom));right:16px;grid-template-columns:repeat(3,52px);gap:5px;z-index:4}
+#touch button{width:52px;height:52px;padding:0;font-size:20px;box-shadow:0 3px 10px #1c2b2540}
+@media(max-width:520px){#hint{max-width:48%;font-size:11px}#touch{right:12px}}
 #mini{position:absolute;right:16px;top:75px;width:124px;height:130px;background:#f8efdbe8;border:1px solid #b4a185;border-radius:10px;pointer-events:none}#viaje{position:absolute;left:50%;top:16px;transform:translateX(-50%);background:#23453e;color:white;border-radius:18px;padding:8px 14px;pointer-events:none}#viaje:empty{display:none}#portalLabel{position:absolute;transform:translate(-50%,-100%);background:#215650;color:white;border:1px solid #a1e5c5;border-radius:12px;padding:4px 10px;pointer-events:none;white-space:nowrap}
-@media(max-width:650px){#mini{width:92px;height:97px;top:12px;right:8px}#viaje{top:110px}}
+@media(max-width:650px){#mini{width:92px;height:97px;top:95px;right:8px}#viaje{top:110px}}
 #transicion{position:absolute;inset:0;display:grid;place-items:center;background:#ede2cb;color:#394f40;font:clamp(28px,5vw,62px) Georgia,serif;opacity:0;visibility:hidden;transition:opacity .4s ease,visibility 0s .4s;z-index:5;pointer-events:none}
 #transicion.visible{visibility:visible;opacity:1;transition-delay:0s;pointer-events:auto}
 @media(prefers-reduced-motion:reduce){#transicion{transition:none}}
