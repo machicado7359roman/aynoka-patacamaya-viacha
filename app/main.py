@@ -76,7 +76,20 @@ if isinstance(evento, dict) and evento.get("name") in paradas and evento.get("to
 parada = st.session_state.get("estacion")
 if parada in paradas:
     with st.container(key="laboratorio" if parada in ("Sensor de suelo","Aplicación del agricultor") else "ficha"):
-        st.button("Volver al mapa", on_click=cerrar)
+        st.button("Volver al mapa", on_click=cerrar, key="volver_mapa")
+        st.html("""<script>
+        if (!window.__astraEscapeMapa) {
+          window.__astraEscapeMapa = true;
+          document.addEventListener('keydown', function (event) {
+            if (event.key !== 'Escape') return;
+            const volver = document.querySelector('.st-key-volver_mapa button');
+            if (!volver) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            volver.click();
+          }, true);
+        }
+        </script>""", unsafe_allow_javascript=True)
         if parada != "Sensor de suelo":
             st.header(parada)
         if parada == "Aplicación del agricultor":

@@ -55,19 +55,19 @@ def mostrar_pacharota(sitio, catalogo):
         else:
             mostrar_cuentas_demo()
         st.subheader("Lleva PachaRota a tu parcela")
-        st.write("Abre el archivo en GitHub y pulsa **Download raw** para guardar el APK. "
-                 "Después podrás instalarlo en tu teléfono Android.")
+        st.write("Descarga el APK directamente desde esta página y ábrelo en tu teléfono Android para instalar la versión de prueba.")
         try:
             app = version_movil(sitio, catalogo, pesos)
         except ValueError as exc:
             st.warning(str(exc))
             return
-        st.link_button(
-            "Ver APK en GitHub",
-            "https://github.com/machicado7359roman/astra-altiplano-demo/blob/"
-            "main/descargas/PachaRota-1.3-prueba.apk",
-            type="primary",
-        )
+        apk = ASSETS.parent / "descargas" / "PachaRota-1.3-prueba.apk"
+        if apk.is_file():
+            st.download_button("Descargar PachaRota para Android", apk.read_bytes(),
+                               file_name=apk.name, mime="application/vnd.android.package-archive",
+                               type="primary", on_click="ignore")
+        else:
+            st.error("El archivo de instalación no está disponible en esta versión.")
     with telefono:
         # La vista y el archivo descargado usan exactamente el mismo documento.
         components.html(f"""<style>*{{box-sizing:border-box}}body{{margin:0}}
