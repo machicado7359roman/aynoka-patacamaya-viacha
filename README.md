@@ -17,6 +17,7 @@ python -m streamlit run app/main.py
 
 - El clima histórico proviene de las respuestas NASA POWER guardadas en `datos_nasa/`, con coordenadas, fechas y metadatos incluidos.
 - Las torres y las lecturas de suelo de la demo son simuladas; no hay sensores físicos conectados.
+- El diagrama de Fritzing en `referencias/` es un diseño del prototipo electrónico realizado por el equipo; no acredita montaje ni calibración física.
 - Las recomendaciones son comparaciones exploratorias del motor del equipo, pendientes de validación agronómica y de campo.
 - El registro es local a la instancia web de prueba. No verifica correo, no sincroniza con el APK y puede perderse cuando Streamlit reinicia la instancia. Usa una contraseña exclusiva para la demo.
 - El APK AYNOKA en `descargas/` es una compilación de prueba; su instalación física en Android no quedó verificada.

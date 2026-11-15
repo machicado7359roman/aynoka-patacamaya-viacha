@@ -109,6 +109,13 @@ if parada in paradas:
             for limite in CUATRO_LIMITES_CIENTIFICOS:
                 with st.expander(limite["titulo"]):
                     st.write(limite["descripcion"])
+            st.divider()
+            st.subheader("Diseño del prototipo electrónico")
+            st.write("Este diagrama elaborado por el equipo en Fritzing muestra un nodo transmisor con una Raspberry Pi Pico W, sensores ambientales y una sonda capacitiva de humedad del suelo, además de una central receptora. Algunas señales analógicas requieren conversión analógico-digital antes de que el microcontrolador procese los datos; el esquema representa esa etapa con módulos ADC.")
+            st.image(str(ROOT / "referencias/prototipo_sensores_fritzing.jpeg"),
+                     caption="Diseño de conexiones del prototipo: transmisor y central receptora. Imagen del equipo en Fritzing.",
+                     use_container_width=True)
+            st.caption("Es una referencia de diseño. Algunos sensores no cuentan con símbolo esquemático específico en Fritzing, por lo que sus conexiones se indican de forma ilustrativa. La simulación de esta página no acredita mediciones físicas ni valida por sí sola el cableado o la calibración del circuito.")
         if parada == "Estación climática":
             st.caption(f"NASA POWER · Campaña del {clima['fecha_inicio']} al {clima['fecha_fin']}")
             with st.container(key="lluvia"):
