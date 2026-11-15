@@ -1,0 +1,41 @@
+{
+  "ubicacion": "Patacamaya",
+  "fuente": "NASA POWER",
+  "url_consulta": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MIN%2CT2M_MAX%2CRH2M&community=AG&longitude=-67.9167&latitude=-17.2333&start=20220901&end=20230430&format=JSON",
+  "latitud": -17.2333,
+  "longitud": -67.9167,
+  "fecha_inicio": "2022-09-01",
+  "fecha_fin": "2023-04-30",
+  "periodo": "campana_agricola_2022_2023_patacamaya",
+  "frecuencia_temporal": "diaria_agregada_campana",
+  "parametros_nasa": [
+    "PRECTOTCORR",
+    "T2M",
+    "T2M_MIN",
+    "T2M_MAX",
+    "RH2M"
+  ],
+  "unidades": {
+    "temperatura_media_c": "C",
+    "temperatura_minima_absoluta_c": "C",
+    "precipitacion_total_mm": "mm",
+    "dias_helada": "dias",
+    "humedad_relativa_pct": "%"
+  },
+  "agregaciones": {
+    "temperatura_media_c": "media_aritmetica_diaria",
+    "temperatura_minima_absoluta_c": "minimo_absoluto_diario_T2M_MIN",
+    "precipitacion_total_mm": "suma_acumulada_PRECTOTCORR",
+    "dias_helada": "conteo_dias_T2M_MIN_menor_0C"
+  },
+  "temperatura_media_c": 8.588,
+  "temperatura_minima_absoluta_c": -6.55,
+  "dias_helada": 58,
+  "precipitacion_total_mm": 367.07,
+  "humedad_relativa_pct": 64.603,
+  "calidad_cobertura": {
+    "porcentaje_datos_validos": 100.0,
+    "valores_faltantes_detectados": 0,
+    "es_simulacion_o_ejemplo": false
+  }
+}

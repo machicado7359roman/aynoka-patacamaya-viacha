@@ -1,0 +1,28 @@
+{
+  "parcela_id": "piloto_01",
+  "recomendacion_id": "rotacion_2",
+  "rotaciones": [
+    {
+      "id": "rotacion_1",
+      "nombre": "Rotación 1: Papa → Quinua → Cebada forrajera → Descanso mejorado",
+      "secuencia_anual": "Año 1: Papa amarga/nativa | Año 2: Quinua Real | Año 3: Cebada forrajera | Año 4: Descanso con cobertura",
+      "puntaje": 45,
+      "motivo": "Menor desempeño relativo bajo estrés hídrico y prioridad de recuperación de suelo: el inicio con papa demanda mayor humedad edáfica y movilización de nutrientes sin fijación previa de nitrógeno."
+    },
+    {
+      "id": "rotacion_2",
+      "nombre": "Rotación 2: Quinua → Haba / Tarwi (Leguminosa) → Cebada forrajera → Papa",
+      "secuencia_anual": "Año 1: Quinua | Año 2: Haba/Tarwi (fijación N) | Año 3: Cebada/Avena forrajera | Año 4: Papa",
+      "puntaje": 72,
+      "motivo": "Mejor equilibrio frente a baja precipitación (382.4 mm) y recuperación edáfica: inicia con quinua tolerante a déficit hídrico, incorpora leguminosa fijadora de nitrógeno en el segundo ciclo y asegura biomasa forrajera."
+    },
+    {
+      "id": "rotacion_3",
+      "nombre": "Rotación 3: Cañahua → Avena forrajera + Vicia → Descanso pastoreado → Papa amarga",
+      "secuencia_anual": "Año 1: Cañahua | Año 2: Avena + Vicia (forraje mixto) | Año 3: Descanso manejado | Año 4: Papa Luk'i",
+      "puntaje": 61,
+      "motivo": "Alta tolerancia a heladas severas (>115 días/año) y buena producción de forraje, aunque ofrece una recuperación más lenta de materia orgánica que la inclusión directa de Tarwi/Haba en el segundo año."
+    }
+  ],
+  "estatus": "demostracion"
+}

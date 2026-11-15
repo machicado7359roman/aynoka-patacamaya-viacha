@@ -1,0 +1,151 @@
+{
+  "fuente": "NASA POWER",
+  "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+  "comunidad": "AG",
+  "periodo_diario_solicitado": {
+    "inicio": "2020-01-01",
+    "fin": "2025-12-31"
+  },
+  "estandar_tiempo": "LST (predeterminado de NASA POWER; parámetro omitido)",
+  "variables_solicitadas": [
+    "PRECTOTCORR",
+    "T2M",
+    "T2M_MIN",
+    "T2M_MAX",
+    "RH2M"
+  ],
+  "campanas_completas_generadas": [
+    {
+      "periodo": "2020_2021",
+      "inicio": "2020-09-01",
+      "fin": "2021-04-30"
+    },
+    {
+      "periodo": "2021_2022",
+      "inicio": "2021-09-01",
+      "fin": "2022-04-30"
+    },
+    {
+      "periodo": "2022_2023",
+      "inicio": "2022-09-01",
+      "fin": "2023-04-30"
+    },
+    {
+      "periodo": "2023_2024",
+      "inicio": "2023-09-01",
+      "fin": "2024-04-30"
+    },
+    {
+      "periodo": "2024_2025",
+      "inicio": "2024-09-01",
+      "fin": "2025-04-30"
+    }
+  ],
+  "ubicaciones": [
+    {
+      "clave": "patacamaya",
+      "parcela_id": "patacamaya_01",
+      "nombre": "Patacamaya",
+      "latitud": -17.2333,
+      "longitud": -67.9167,
+      "tipo_punto": "coordenada_referencial_proporcionada_por_el_equipo",
+      "periodo_descargado": {
+        "inicio": "2020-01-01",
+        "fin": "2025-12-31"
+      },
+      "url_consulta": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MIN%2CT2M_MAX%2CRH2M&community=AG&longitude=-67.9167&latitude=-17.2333&start=20200101&end=20251231&format=JSON",
+      "estandar_tiempo": "LST (predeterminado de NASA POWER; parámetro omitido)",
+      "archivo_respuesta_original": "resultados\\raw\\nasa_power_patacamaya_2020-01-01_2025-12-31.json",
+      "registros_esperados": 2192,
+      "fechas_devuelta_por_api_en_rango": 2192,
+      "variables": {
+        "PRECTOTCORR": {
+          "descripcion": "Precipitación corregida diaria",
+          "unidad_api": "mm/day",
+          "nombre_api": "Precipitation Corrected"
+        },
+        "T2M": {
+          "descripcion": "Temperatura media diaria del aire a 2 metros",
+          "unidad_api": "C",
+          "nombre_api": "Temperature at 2 Meters"
+        },
+        "T2M_MIN": {
+          "descripcion": "Temperatura mínima diaria del aire a 2 metros",
+          "unidad_api": "C",
+          "nombre_api": "Temperature at 2 Meters Minimum"
+        },
+        "T2M_MAX": {
+          "descripcion": "Temperatura máxima diaria del aire a 2 metros",
+          "unidad_api": "C",
+          "nombre_api": "Temperature at 2 Meters Maximum"
+        },
+        "RH2M": {
+          "descripcion": "Humedad relativa del aire a 2 metros",
+          "unidad_api": "%",
+          "nombre_api": "Relative Humidity at 2 Meters"
+        }
+      },
+      "mensajes_api": []
+    },
+    {
+      "clave": "viacha",
+      "parcela_id": "viacha_01",
+      "nombre": "Viacha",
+      "latitud": -16.6533,
+      "longitud": -68.3017,
+      "tipo_punto": "coordenada_referencial_proporcionada_por_el_equipo",
+      "periodo_descargado": {
+        "inicio": "2020-01-01",
+        "fin": "2025-12-31"
+      },
+      "url_consulta": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MIN%2CT2M_MAX%2CRH2M&community=AG&longitude=-68.3017&latitude=-16.6533&start=20200101&end=20251231&format=JSON",
+      "estandar_tiempo": "LST (predeterminado de NASA POWER; parámetro omitido)",
+      "archivo_respuesta_original": "resultados\\raw\\nasa_power_viacha_2020-01-01_2025-12-31.json",
+      "registros_esperados": 2192,
+      "fechas_devuelta_por_api_en_rango": 2192,
+      "variables": {
+        "PRECTOTCORR": {
+          "descripcion": "Precipitación corregida diaria",
+          "unidad_api": "mm/day",
+          "nombre_api": "Precipitation Corrected"
+        },
+        "T2M": {
+          "descripcion": "Temperatura media diaria del aire a 2 metros",
+          "unidad_api": "C",
+          "nombre_api": "Temperature at 2 Meters"
+        },
+        "T2M_MIN": {
+          "descripcion": "Temperatura mínima diaria del aire a 2 metros",
+          "unidad_api": "C",
+          "nombre_api": "Temperature at 2 Meters Minimum"
+        },
+        "T2M_MAX": {
+          "descripcion": "Temperatura máxima diaria del aire a 2 metros",
+          "unidad_api": "C",
+          "nombre_api": "Temperature at 2 Meters Maximum"
+        },
+        "RH2M": {
+          "descripcion": "Humedad relativa del aire a 2 metros",
+          "unidad_api": "%",
+          "nombre_api": "Relative Humidity at 2 Meters"
+        }
+      },
+      "mensajes_api": []
+    }
+  ],
+  "valores_centinela_convertidos_a_nulo": [
+    -99999.0,
+    -9999.0,
+    -999.0,
+    -99.0
+  ],
+  "fecha_generacion_local": "2026-11-14T12:14:07",
+  "advertencias": [
+    "Las coordenadas son referencias proporcionadas por el equipo; confirmar que correspondan a las parcelas piloto.",
+    "NASA POWER entrega datos de productos/grillas y no sustituye una estación meteorológica dentro de la parcela.",
+    "RH2M representa humedad relativa del aire, no humedad del suelo.",
+    "Si falta al menos un día de PRECTOTCORR, la precipitación total de la campaña se entrega como null.",
+    "Si falta al menos un día de T2M_MIN, la temperatura mínima absoluta y el conteo de heladas se entregan como null.",
+    "El porcentaje de cobertura se calcula sobre todas las celdas diarias de las cinco variables."
+  ]
+}

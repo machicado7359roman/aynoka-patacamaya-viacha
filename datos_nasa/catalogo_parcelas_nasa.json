@@ -1,0 +1,94 @@
+{
+  "parcelas": {
+    "patacamaya_01": {
+      "ubicacion": "Patacamaya",
+      "fuente": "NASA POWER",
+      "url_consulta": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MIN%2CT2M_MAX%2CRH2M&community=AG&longitude=-67.9167&latitude=-17.2333&start=20240901&end=20250430&format=JSON",
+      "latitud": -17.2333,
+      "longitud": -67.9167,
+      "fecha_inicio": "2024-09-01",
+      "fecha_fin": "2025-04-30",
+      "periodo": "campana_agricola_2024_2025_patacamaya",
+      "frecuencia_temporal": "diaria_agregada_campana",
+      "parametros_nasa": [
+        "PRECTOTCORR",
+        "T2M",
+        "T2M_MIN",
+        "T2M_MAX",
+        "RH2M"
+      ],
+      "unidades": {
+        "temperatura_media_c": "C",
+        "temperatura_minima_absoluta_c": "C",
+        "precipitacion_total_mm": "mm",
+        "dias_helada": "dias",
+        "humedad_relativa_pct": "%"
+      },
+      "agregaciones": {
+        "temperatura_media_c": "media_aritmetica_diaria",
+        "temperatura_minima_absoluta_c": "minimo_absoluto_diario_T2M_MIN",
+        "precipitacion_total_mm": "suma_acumulada_PRECTOTCORR",
+        "dias_helada": "conteo_dias_T2M_MIN_menor_0C"
+      },
+      "temperatura_media_c": 8.926,
+      "temperatura_minima_absoluta_c": -6.12,
+      "dias_helada": 17,
+      "precipitacion_total_mm": 717.24,
+      "humedad_relativa_pct": 73.106,
+      "calidad_cobertura": {
+        "porcentaje_datos_validos": 100.0,
+        "valores_faltantes_detectados": 0,
+        "es_simulacion_o_ejemplo": false
+      },
+      "parcela_id": "patacamaya_01",
+      "nombre_parcela": "Patacamaya — punto piloto por confirmar",
+      "municipio": "Patacamaya, La Paz",
+      "heladas_dias_anio": null
+    },
+    "viacha_01": {
+      "ubicacion": "Viacha",
+      "fuente": "NASA POWER",
+      "url_consulta": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MIN%2CT2M_MAX%2CRH2M&community=AG&longitude=-68.3017&latitude=-16.6533&start=20240901&end=20250430&format=JSON",
+      "latitud": -16.6533,
+      "longitud": -68.3017,
+      "fecha_inicio": "2024-09-01",
+      "fecha_fin": "2025-04-30",
+      "periodo": "campana_agricola_2024_2025_viacha",
+      "frecuencia_temporal": "diaria_agregada_campana",
+      "parametros_nasa": [
+        "PRECTOTCORR",
+        "T2M",
+        "T2M_MIN",
+        "T2M_MAX",
+        "RH2M"
+      ],
+      "unidades": {
+        "temperatura_media_c": "C",
+        "temperatura_minima_absoluta_c": "C",
+        "precipitacion_total_mm": "mm",
+        "dias_helada": "dias",
+        "humedad_relativa_pct": "%"
+      },
+      "agregaciones": {
+        "temperatura_media_c": "media_aritmetica_diaria",
+        "temperatura_minima_absoluta_c": "minimo_absoluto_diario_T2M_MIN",
+        "precipitacion_total_mm": "suma_acumulada_PRECTOTCORR",
+        "dias_helada": "conteo_dias_T2M_MIN_menor_0C"
+      },
+      "temperatura_media_c": 9.165,
+      "temperatura_minima_absoluta_c": -2.34,
+      "dias_helada": 5,
+      "precipitacion_total_mm": 811.63,
+      "humedad_relativa_pct": 79.079,
+      "calidad_cobertura": {
+        "porcentaje_datos_validos": 100.0,
+        "valores_faltantes_detectados": 0,
+        "es_simulacion_o_ejemplo": false
+      },
+      "parcela_id": "viacha_01",
+      "nombre_parcela": "Viacha — punto piloto por confirmar",
+      "municipio": "Viacha, La Paz",
+      "heladas_dias_anio": null
+    }
+  }
+}

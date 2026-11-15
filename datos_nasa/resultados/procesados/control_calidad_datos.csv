@@ -1,0 +1,11 @@
+﻿ubicacion,variable,registros_esperados,registros_validos,valores_faltantes,porcentaje_valido,minimo,maximo,promedio
+Patacamaya,PRECTOTCORR,2192,2192,0,100.0,0.0,39.8,1.646
+Patacamaya,T2M,2192,2192,0,100.0,0.43,13.62,7.598
+Patacamaya,T2M_MIN,2192,2192,0,100.0,-9.01,7.82,0.979
+Patacamaya,T2M_MAX,2192,2192,0,100.0,6.05,24.18,16.084
+Patacamaya,RH2M,2192,2192,0,100.0,18.48,91.79,68.423
+Viacha,PRECTOTCORR,2192,2192,0,100.0,0.0,49.05,1.87
+Viacha,T2M,2192,2192,0,100.0,1.78,13.52,8.155
+Viacha,T2M_MIN,2192,2192,0,100.0,-6.27,9.35,2.528
+Viacha,T2M_MAX,2192,2192,0,100.0,7.52,22.96,15.322
+Viacha,RH2M,2192,2192,0,100.0,29.81,94.15,75.273

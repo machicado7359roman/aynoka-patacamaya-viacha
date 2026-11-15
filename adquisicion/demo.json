@@ -1,0 +1,1079 @@
+{
+  "schema": "farmastra.adquisicion/1.1",
+  "source": "SIMULACION",
+  "exported_at_simulated": "2026-11-14T10:00:00",
+  "time_standard": "LST",
+  "central": {
+    "id": "CENTRAL",
+    "address": 0,
+    "connection": "SIMULADA"
+  },
+  "station_count": 3,
+  "thresholds": {
+    "battery": 3.3,
+    "rssi": -110,
+    "snr": 0,
+    "soil": 0.12,
+    "cold": 0,
+    "phLow": 5.5,
+    "phHigh": 8
+  },
+  "stations": [
+    {
+      "id": "P01",
+      "configured_address": 1,
+      "zona_id": "patacamaya_01",
+      "hostname": "parcela-ilustrativa-1-p01.test",
+      "simulated_ipv4": "10.42.0.1",
+      "location_source": null,
+      "location": "Parcela ilustrativa 1",
+      "status": "En línea",
+      "conditions": [],
+      "link_available": true,
+      "last_received_at_simulated": "2026-11-14T10:00:00",
+      "age_minutes": 0,
+      "local_preview": {
+        "type": "Feature",
+        "geometry": null,
+        "properties": {
+          "parameter": {
+            "T2M": {
+              "20261114": 9.4
+            },
+            "RH2M": {
+              "20261114": 58.3
+            },
+            "T15CM": {
+              "20261114": 9.1
+            },
+            "RH15CM": {
+              "20261114": 63
+            },
+            "VWC_5CM": {
+              "20261114": 0.138
+            },
+            "VWC_25CM": {
+              "20261114": 0.196
+            },
+            "VWC_100CM": {
+              "20261114": 0.254
+            },
+            "TSOIL_25CM": {
+              "20261114": 12.6
+            },
+            "EC_SOIL": {
+              "20261114": 1.35
+            },
+            "PH_SOIL": {
+              "20261114": 6.7
+            },
+            "PRECTOTCORR": {
+              "20261114": 2.4
+            },
+            "WS2M": {
+              "20261114": 2.4
+            },
+            "WS2M_MAX": {
+              "20261114": 6.9
+            },
+            "ALLSKY_SFC_SW_DWN": {
+              "20261114": 318.7
+            },
+            "ALLSKY_SFC_LW_DWN": {
+              "20261114": 247.9
+            },
+            "PS": {
+              "20261114": 62.28
+            },
+            "T2M_MIN": {
+              "20261114": 1.2
+            },
+            "T2M_MAX": {
+              "20261114": 17.8
+            },
+            "BAT_V": {
+              "20261114": 3.76
+            },
+            "LORA_RSSI": {
+              "20261114": -84
+            },
+            "LORA_SNR": {
+              "20261114": 7.5
+            },
+            "GWETTOP": {
+              "20261114": 0.307
+            },
+            "GWETROOT": {
+              "20261114": 0.468
+            }
+          }
+        },
+        "header": {
+          "station": {
+            "zona_id": "patacamaya_01",
+            "hostname": "parcela-ilustrativa-1-p01.test",
+            "simulated_ipv4": "10.42.0.1",
+            "location_source": null,
+            "id": "P01",
+            "address": 1,
+            "location": "Parcela ilustrativa 1"
+          },
+          "title": "SIMULACIÓN LOCAL · Nodo P01",
+          "api": {
+            "version": "1.0",
+            "name": "LoRa nodo P01"
+          },
+          "sources": [
+            "SIMULACION"
+          ],
+          "fill_value": -999,
+          "time_standard": "LST",
+          "start": "20261114",
+          "end": "20261114"
+        },
+        "messages": [
+          "Valores de ejemplo editables; no son mediciones físicas ni datos NASA.",
+          "Ubicación geográfica pendiente.",
+          "PH_SOIL es una extensión propuesta, ausente del firmware revisado.",
+          "Escenario diario ilustrativo: no reproduce el muestreo ni la agregación temporal del firmware."
+        ],
+        "parameters": {
+          "T2M": {
+            "units": "C",
+            "longname": "Temperatura del aire · 2 m"
+          },
+          "RH2M": {
+            "units": "%",
+            "longname": "Humedad del aire · 2 m"
+          },
+          "T15CM": {
+            "units": "C",
+            "longname": "Temperatura del aire · 15 cm"
+          },
+          "RH15CM": {
+            "units": "%",
+            "longname": "Humedad del aire · 15 cm"
+          },
+          "VWC_5CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 5 cm"
+          },
+          "VWC_25CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 25 cm"
+          },
+          "VWC_100CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 100 cm"
+          },
+          "TSOIL_25CM": {
+            "units": "C",
+            "longname": "Temperatura del suelo · 25 cm"
+          },
+          "EC_SOIL": {
+            "units": "dS/m",
+            "longname": "Conductividad del suelo"
+          },
+          "PH_SOIL": {
+            "units": "pH",
+            "longname": "pH del suelo · sensor propuesto",
+            "proposed": true
+          },
+          "PRECTOTCORR": {
+            "units": "mm/day",
+            "longname": "Lluvia diaria acumulada"
+          },
+          "WS2M": {
+            "units": "m/s",
+            "longname": "Velocidad del viento"
+          },
+          "WS2M_MAX": {
+            "units": "m/s",
+            "longname": "Ráfaga máxima"
+          },
+          "ALLSKY_SFC_SW_DWN": {
+            "units": "W/m2",
+            "longname": "Radiación de onda corta"
+          },
+          "ALLSKY_SFC_LW_DWN": {
+            "units": "W/m2",
+            "longname": "Radiación de onda larga"
+          },
+          "PS": {
+            "units": "kPa",
+            "longname": "Presión atmosférica"
+          },
+          "T2M_MIN": {
+            "units": "C",
+            "longname": "Temperatura mínima diaria"
+          },
+          "T2M_MAX": {
+            "units": "C",
+            "longname": "Temperatura máxima diaria"
+          },
+          "BAT_V": {
+            "units": "V",
+            "longname": "Voltaje de batería"
+          },
+          "LORA_RSSI": {
+            "units": "dBm",
+            "longname": "Intensidad de señal recibida"
+          },
+          "LORA_SNR": {
+            "units": "dB",
+            "longname": "Relación señal / ruido"
+          },
+          "GWETTOP": {
+            "units": "1",
+            "longname": "Humedad superficial derivada · porosidad ilustrativa 0.45"
+          },
+          "GWETROOT": {
+            "units": "1",
+            "longname": "Humedad radicular derivada · pesos ilustrativos 0.15 / 0.45 / 0.40"
+          }
+        }
+      },
+      "last_valid_received": {
+        "type": "Feature",
+        "geometry": null,
+        "properties": {
+          "parameter": {
+            "T2M": {
+              "20261114": 9.4
+            },
+            "RH2M": {
+              "20261114": 58.3
+            },
+            "T15CM": {
+              "20261114": 9.1
+            },
+            "RH15CM": {
+              "20261114": 63
+            },
+            "VWC_5CM": {
+              "20261114": 0.138
+            },
+            "VWC_25CM": {
+              "20261114": 0.196
+            },
+            "VWC_100CM": {
+              "20261114": 0.254
+            },
+            "TSOIL_25CM": {
+              "20261114": 12.6
+            },
+            "EC_SOIL": {
+              "20261114": 1.35
+            },
+            "PH_SOIL": {
+              "20261114": 6.7
+            },
+            "PRECTOTCORR": {
+              "20261114": 2.4
+            },
+            "WS2M": {
+              "20261114": 2.4
+            },
+            "WS2M_MAX": {
+              "20261114": 6.9
+            },
+            "ALLSKY_SFC_SW_DWN": {
+              "20261114": 318.7
+            },
+            "ALLSKY_SFC_LW_DWN": {
+              "20261114": 247.9
+            },
+            "PS": {
+              "20261114": 62.28
+            },
+            "T2M_MIN": {
+              "20261114": 1.2
+            },
+            "T2M_MAX": {
+              "20261114": 17.8
+            },
+            "BAT_V": {
+              "20261114": 3.76
+            },
+            "LORA_RSSI": {
+              "20261114": -84
+            },
+            "LORA_SNR": {
+              "20261114": 7.5
+            },
+            "GWETTOP": {
+              "20261114": 0.307
+            },
+            "GWETROOT": {
+              "20261114": 0.468
+            }
+          }
+        },
+        "header": {
+          "station": {
+            "zona_id": "patacamaya_01",
+            "hostname": "parcela-ilustrativa-1-p01.test",
+            "simulated_ipv4": "10.42.0.1",
+            "location_source": null,
+            "id": "P01",
+            "address": 1,
+            "location": "Parcela ilustrativa 1"
+          },
+          "title": "SIMULACIÓN LOCAL · Nodo P01",
+          "api": {
+            "version": "1.0",
+            "name": "LoRa nodo P01"
+          },
+          "sources": [
+            "SIMULACION"
+          ],
+          "fill_value": -999,
+          "time_standard": "LST",
+          "start": "20261114",
+          "end": "20261114"
+        },
+        "messages": [
+          "Valores de ejemplo editables; no son mediciones físicas ni datos NASA.",
+          "Ubicación geográfica pendiente.",
+          "PH_SOIL es una extensión propuesta, ausente del firmware revisado.",
+          "Escenario diario ilustrativo: no reproduce el muestreo ni la agregación temporal del firmware."
+        ],
+        "parameters": {
+          "T2M": {
+            "units": "C",
+            "longname": "Temperatura del aire · 2 m"
+          },
+          "RH2M": {
+            "units": "%",
+            "longname": "Humedad del aire · 2 m"
+          },
+          "T15CM": {
+            "units": "C",
+            "longname": "Temperatura del aire · 15 cm"
+          },
+          "RH15CM": {
+            "units": "%",
+            "longname": "Humedad del aire · 15 cm"
+          },
+          "VWC_5CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 5 cm"
+          },
+          "VWC_25CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 25 cm"
+          },
+          "VWC_100CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 100 cm"
+          },
+          "TSOIL_25CM": {
+            "units": "C",
+            "longname": "Temperatura del suelo · 25 cm"
+          },
+          "EC_SOIL": {
+            "units": "dS/m",
+            "longname": "Conductividad del suelo"
+          },
+          "PH_SOIL": {
+            "units": "pH",
+            "longname": "pH del suelo · sensor propuesto",
+            "proposed": true
+          },
+          "PRECTOTCORR": {
+            "units": "mm/day",
+            "longname": "Lluvia diaria acumulada"
+          },
+          "WS2M": {
+            "units": "m/s",
+            "longname": "Velocidad del viento"
+          },
+          "WS2M_MAX": {
+            "units": "m/s",
+            "longname": "Ráfaga máxima"
+          },
+          "ALLSKY_SFC_SW_DWN": {
+            "units": "W/m2",
+            "longname": "Radiación de onda corta"
+          },
+          "ALLSKY_SFC_LW_DWN": {
+            "units": "W/m2",
+            "longname": "Radiación de onda larga"
+          },
+          "PS": {
+            "units": "kPa",
+            "longname": "Presión atmosférica"
+          },
+          "T2M_MIN": {
+            "units": "C",
+            "longname": "Temperatura mínima diaria"
+          },
+          "T2M_MAX": {
+            "units": "C",
+            "longname": "Temperatura máxima diaria"
+          },
+          "BAT_V": {
+            "units": "V",
+            "longname": "Voltaje de batería"
+          },
+          "LORA_RSSI": {
+            "units": "dBm",
+            "longname": "Intensidad de señal recibida"
+          },
+          "LORA_SNR": {
+            "units": "dB",
+            "longname": "Relación señal / ruido"
+          },
+          "GWETTOP": {
+            "units": "1",
+            "longname": "Humedad superficial derivada · porosidad ilustrativa 0.45"
+          },
+          "GWETROOT": {
+            "units": "1",
+            "longname": "Humedad radicular derivada · pesos ilustrativos 0.15 / 0.45 / 0.40"
+          }
+        }
+      }
+    },
+    {
+      "id": "P02",
+      "configured_address": 2,
+      "zona_id": "viacha_01",
+      "hostname": "parcela-ilustrativa-2-p02.test",
+      "simulated_ipv4": "10.42.0.2",
+      "location_source": null,
+      "location": "Parcela ilustrativa 2",
+      "status": "En línea",
+      "conditions": [],
+      "link_available": true,
+      "last_received_at_simulated": "2026-11-14T10:00:00",
+      "age_minutes": 0,
+      "local_preview": {
+        "type": "Feature",
+        "geometry": null,
+        "properties": {
+          "parameter": {
+            "T2M": {
+              "20261114": 11.2
+            },
+            "RH2M": {
+              "20261114": 58.3
+            },
+            "T15CM": {
+              "20261114": 9.1
+            },
+            "RH15CM": {
+              "20261114": 63
+            },
+            "VWC_5CM": {
+              "20261114": 0.138
+            },
+            "VWC_25CM": {
+              "20261114": 0.224
+            },
+            "VWC_100CM": {
+              "20261114": 0.254
+            },
+            "TSOIL_25CM": {
+              "20261114": 12.6
+            },
+            "EC_SOIL": {
+              "20261114": 1.35
+            },
+            "PH_SOIL": {
+              "20261114": 6.7
+            },
+            "PRECTOTCORR": {
+              "20261114": 2.4
+            },
+            "WS2M": {
+              "20261114": 2.4
+            },
+            "WS2M_MAX": {
+              "20261114": 6.9
+            },
+            "ALLSKY_SFC_SW_DWN": {
+              "20261114": 318.7
+            },
+            "ALLSKY_SFC_LW_DWN": {
+              "20261114": 247.9
+            },
+            "PS": {
+              "20261114": 62.28
+            },
+            "T2M_MIN": {
+              "20261114": 1.2
+            },
+            "T2M_MAX": {
+              "20261114": 17.8
+            },
+            "BAT_V": {
+              "20261114": 3.76
+            },
+            "LORA_RSSI": {
+              "20261114": -84
+            },
+            "LORA_SNR": {
+              "20261114": 7.5
+            },
+            "GWETTOP": {
+              "20261114": 0.307
+            },
+            "GWETROOT": {
+              "20261114": 0.496
+            }
+          }
+        },
+        "header": {
+          "station": {
+            "zona_id": "viacha_01",
+            "hostname": "parcela-ilustrativa-2-p02.test",
+            "simulated_ipv4": "10.42.0.2",
+            "location_source": null,
+            "id": "P02",
+            "address": 2,
+            "location": "Parcela ilustrativa 2"
+          },
+          "title": "SIMULACIÓN LOCAL · Nodo P02",
+          "api": {
+            "version": "1.0",
+            "name": "LoRa nodo P02"
+          },
+          "sources": [
+            "SIMULACION"
+          ],
+          "fill_value": -999,
+          "time_standard": "LST",
+          "start": "20261114",
+          "end": "20261114"
+        },
+        "messages": [
+          "Valores de ejemplo editables; no son mediciones físicas ni datos NASA.",
+          "Ubicación geográfica pendiente.",
+          "PH_SOIL es una extensión propuesta, ausente del firmware revisado.",
+          "Escenario diario ilustrativo: no reproduce el muestreo ni la agregación temporal del firmware."
+        ],
+        "parameters": {
+          "T2M": {
+            "units": "C",
+            "longname": "Temperatura del aire · 2 m"
+          },
+          "RH2M": {
+            "units": "%",
+            "longname": "Humedad del aire · 2 m"
+          },
+          "T15CM": {
+            "units": "C",
+            "longname": "Temperatura del aire · 15 cm"
+          },
+          "RH15CM": {
+            "units": "%",
+            "longname": "Humedad del aire · 15 cm"
+          },
+          "VWC_5CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 5 cm"
+          },
+          "VWC_25CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 25 cm"
+          },
+          "VWC_100CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 100 cm"
+          },
+          "TSOIL_25CM": {
+            "units": "C",
+            "longname": "Temperatura del suelo · 25 cm"
+          },
+          "EC_SOIL": {
+            "units": "dS/m",
+            "longname": "Conductividad del suelo"
+          },
+          "PH_SOIL": {
+            "units": "pH",
+            "longname": "pH del suelo · sensor propuesto",
+            "proposed": true
+          },
+          "PRECTOTCORR": {
+            "units": "mm/day",
+            "longname": "Lluvia diaria acumulada"
+          },
+          "WS2M": {
+            "units": "m/s",
+            "longname": "Velocidad del viento"
+          },
+          "WS2M_MAX": {
+            "units": "m/s",
+            "longname": "Ráfaga máxima"
+          },
+          "ALLSKY_SFC_SW_DWN": {
+            "units": "W/m2",
+            "longname": "Radiación de onda corta"
+          },
+          "ALLSKY_SFC_LW_DWN": {
+            "units": "W/m2",
+            "longname": "Radiación de onda larga"
+          },
+          "PS": {
+            "units": "kPa",
+            "longname": "Presión atmosférica"
+          },
+          "T2M_MIN": {
+            "units": "C",
+            "longname": "Temperatura mínima diaria"
+          },
+          "T2M_MAX": {
+            "units": "C",
+            "longname": "Temperatura máxima diaria"
+          },
+          "BAT_V": {
+            "units": "V",
+            "longname": "Voltaje de batería"
+          },
+          "LORA_RSSI": {
+            "units": "dBm",
+            "longname": "Intensidad de señal recibida"
+          },
+          "LORA_SNR": {
+            "units": "dB",
+            "longname": "Relación señal / ruido"
+          },
+          "GWETTOP": {
+            "units": "1",
+            "longname": "Humedad superficial derivada · porosidad ilustrativa 0.45"
+          },
+          "GWETROOT": {
+            "units": "1",
+            "longname": "Humedad radicular derivada · pesos ilustrativos 0.15 / 0.45 / 0.40"
+          }
+        }
+      },
+      "last_valid_received": {
+        "type": "Feature",
+        "geometry": null,
+        "properties": {
+          "parameter": {
+            "T2M": {
+              "20261114": 11.2
+            },
+            "RH2M": {
+              "20261114": 58.3
+            },
+            "T15CM": {
+              "20261114": 9.1
+            },
+            "RH15CM": {
+              "20261114": 63
+            },
+            "VWC_5CM": {
+              "20261114": 0.138
+            },
+            "VWC_25CM": {
+              "20261114": 0.224
+            },
+            "VWC_100CM": {
+              "20261114": 0.254
+            },
+            "TSOIL_25CM": {
+              "20261114": 12.6
+            },
+            "EC_SOIL": {
+              "20261114": 1.35
+            },
+            "PH_SOIL": {
+              "20261114": 6.7
+            },
+            "PRECTOTCORR": {
+              "20261114": 2.4
+            },
+            "WS2M": {
+              "20261114": 2.4
+            },
+            "WS2M_MAX": {
+              "20261114": 6.9
+            },
+            "ALLSKY_SFC_SW_DWN": {
+              "20261114": 318.7
+            },
+            "ALLSKY_SFC_LW_DWN": {
+              "20261114": 247.9
+            },
+            "PS": {
+              "20261114": 62.28
+            },
+            "T2M_MIN": {
+              "20261114": 1.2
+            },
+            "T2M_MAX": {
+              "20261114": 17.8
+            },
+            "BAT_V": {
+              "20261114": 3.76
+            },
+            "LORA_RSSI": {
+              "20261114": -84
+            },
+            "LORA_SNR": {
+              "20261114": 7.5
+            },
+            "GWETTOP": {
+              "20261114": 0.307
+            },
+            "GWETROOT": {
+              "20261114": 0.496
+            }
+          }
+        },
+        "header": {
+          "station": {
+            "zona_id": "viacha_01",
+            "hostname": "parcela-ilustrativa-2-p02.test",
+            "simulated_ipv4": "10.42.0.2",
+            "location_source": null,
+            "id": "P02",
+            "address": 2,
+            "location": "Parcela ilustrativa 2"
+          },
+          "title": "SIMULACIÓN LOCAL · Nodo P02",
+          "api": {
+            "version": "1.0",
+            "name": "LoRa nodo P02"
+          },
+          "sources": [
+            "SIMULACION"
+          ],
+          "fill_value": -999,
+          "time_standard": "LST",
+          "start": "20261114",
+          "end": "20261114"
+        },
+        "messages": [
+          "Valores de ejemplo editables; no son mediciones físicas ni datos NASA.",
+          "Ubicación geográfica pendiente.",
+          "PH_SOIL es una extensión propuesta, ausente del firmware revisado.",
+          "Escenario diario ilustrativo: no reproduce el muestreo ni la agregación temporal del firmware."
+        ],
+        "parameters": {
+          "T2M": {
+            "units": "C",
+            "longname": "Temperatura del aire · 2 m"
+          },
+          "RH2M": {
+            "units": "%",
+            "longname": "Humedad del aire · 2 m"
+          },
+          "T15CM": {
+            "units": "C",
+            "longname": "Temperatura del aire · 15 cm"
+          },
+          "RH15CM": {
+            "units": "%",
+            "longname": "Humedad del aire · 15 cm"
+          },
+          "VWC_5CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 5 cm"
+          },
+          "VWC_25CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 25 cm"
+          },
+          "VWC_100CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 100 cm"
+          },
+          "TSOIL_25CM": {
+            "units": "C",
+            "longname": "Temperatura del suelo · 25 cm"
+          },
+          "EC_SOIL": {
+            "units": "dS/m",
+            "longname": "Conductividad del suelo"
+          },
+          "PH_SOIL": {
+            "units": "pH",
+            "longname": "pH del suelo · sensor propuesto",
+            "proposed": true
+          },
+          "PRECTOTCORR": {
+            "units": "mm/day",
+            "longname": "Lluvia diaria acumulada"
+          },
+          "WS2M": {
+            "units": "m/s",
+            "longname": "Velocidad del viento"
+          },
+          "WS2M_MAX": {
+            "units": "m/s",
+            "longname": "Ráfaga máxima"
+          },
+          "ALLSKY_SFC_SW_DWN": {
+            "units": "W/m2",
+            "longname": "Radiación de onda corta"
+          },
+          "ALLSKY_SFC_LW_DWN": {
+            "units": "W/m2",
+            "longname": "Radiación de onda larga"
+          },
+          "PS": {
+            "units": "kPa",
+            "longname": "Presión atmosférica"
+          },
+          "T2M_MIN": {
+            "units": "C",
+            "longname": "Temperatura mínima diaria"
+          },
+          "T2M_MAX": {
+            "units": "C",
+            "longname": "Temperatura máxima diaria"
+          },
+          "BAT_V": {
+            "units": "V",
+            "longname": "Voltaje de batería"
+          },
+          "LORA_RSSI": {
+            "units": "dBm",
+            "longname": "Intensidad de señal recibida"
+          },
+          "LORA_SNR": {
+            "units": "dB",
+            "longname": "Relación señal / ruido"
+          },
+          "GWETTOP": {
+            "units": "1",
+            "longname": "Humedad superficial derivada · porosidad ilustrativa 0.45"
+          },
+          "GWETROOT": {
+            "units": "1",
+            "longname": "Humedad radicular derivada · pesos ilustrativos 0.15 / 0.45 / 0.40"
+          }
+        }
+      }
+    },
+    {
+      "id": "P03",
+      "configured_address": 3,
+      "zona_id": null,
+      "hostname": "parcela-p03.test",
+      "simulated_ipv4": "10.42.0.3",
+      "location_source": null,
+      "location": null,
+      "status": "Sin datos",
+      "conditions": [
+        "Sin datos recibidos"
+      ],
+      "link_available": true,
+      "last_received_at_simulated": null,
+      "age_minutes": null,
+      "local_preview": {
+        "type": "Feature",
+        "geometry": null,
+        "properties": {
+          "parameter": {
+            "T2M": {
+              "20261114": 8.6
+            },
+            "RH2M": {
+              "20261114": 58.3
+            },
+            "T15CM": {
+              "20261114": 9.1
+            },
+            "RH15CM": {
+              "20261114": 63
+            },
+            "VWC_5CM": {
+              "20261114": 0.138
+            },
+            "VWC_25CM": {
+              "20261114": 0.196
+            },
+            "VWC_100CM": {
+              "20261114": 0.254
+            },
+            "TSOIL_25CM": {
+              "20261114": 12.6
+            },
+            "EC_SOIL": {
+              "20261114": 1.35
+            },
+            "PH_SOIL": {
+              "20261114": 6.7
+            },
+            "PRECTOTCORR": {
+              "20261114": 2.4
+            },
+            "WS2M": {
+              "20261114": 2.4
+            },
+            "WS2M_MAX": {
+              "20261114": 6.9
+            },
+            "ALLSKY_SFC_SW_DWN": {
+              "20261114": 318.7
+            },
+            "ALLSKY_SFC_LW_DWN": {
+              "20261114": 247.9
+            },
+            "PS": {
+              "20261114": 62.28
+            },
+            "T2M_MIN": {
+              "20261114": 1.2
+            },
+            "T2M_MAX": {
+              "20261114": 17.8
+            },
+            "BAT_V": {
+              "20261114": 3.76
+            },
+            "LORA_RSSI": {
+              "20261114": -96
+            },
+            "LORA_SNR": {
+              "20261114": 7.5
+            },
+            "GWETTOP": {
+              "20261114": 0.307
+            },
+            "GWETROOT": {
+              "20261114": 0.468
+            }
+          }
+        },
+        "header": {
+          "station": {
+            "zona_id": null,
+            "hostname": "parcela-p03.test",
+            "simulated_ipv4": "10.42.0.3",
+            "location_source": null,
+            "id": "P03",
+            "address": 3,
+            "location": null
+          },
+          "title": "SIMULACIÓN LOCAL · Nodo P03",
+          "api": {
+            "version": "1.0",
+            "name": "LoRa nodo P03"
+          },
+          "sources": [
+            "SIMULACION"
+          ],
+          "fill_value": -999,
+          "time_standard": "LST",
+          "start": "20261114",
+          "end": "20261114"
+        },
+        "messages": [
+          "Valores de ejemplo editables; no son mediciones físicas ni datos NASA.",
+          "Ubicación geográfica pendiente.",
+          "PH_SOIL es una extensión propuesta, ausente del firmware revisado.",
+          "Escenario diario ilustrativo: no reproduce el muestreo ni la agregación temporal del firmware."
+        ],
+        "parameters": {
+          "T2M": {
+            "units": "C",
+            "longname": "Temperatura del aire · 2 m"
+          },
+          "RH2M": {
+            "units": "%",
+            "longname": "Humedad del aire · 2 m"
+          },
+          "T15CM": {
+            "units": "C",
+            "longname": "Temperatura del aire · 15 cm"
+          },
+          "RH15CM": {
+            "units": "%",
+            "longname": "Humedad del aire · 15 cm"
+          },
+          "VWC_5CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 5 cm"
+          },
+          "VWC_25CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 25 cm"
+          },
+          "VWC_100CM": {
+            "units": "m3/m3",
+            "longname": "Humedad del suelo · 100 cm"
+          },
+          "TSOIL_25CM": {
+            "units": "C",
+            "longname": "Temperatura del suelo · 25 cm"
+          },
+          "EC_SOIL": {
+            "units": "dS/m",
+            "longname": "Conductividad del suelo"
+          },
+          "PH_SOIL": {
+            "units": "pH",
+            "longname": "pH del suelo · sensor propuesto",
+            "proposed": true
+          },
+          "PRECTOTCORR": {
+            "units": "mm/day",
+            "longname": "Lluvia diaria acumulada"
+          },
+          "WS2M": {
+            "units": "m/s",
+            "longname": "Velocidad del viento"
+          },
+          "WS2M_MAX": {
+            "units": "m/s",
+            "longname": "Ráfaga máxima"
+          },
+          "ALLSKY_SFC_SW_DWN": {
+            "units": "W/m2",
+            "longname": "Radiación de onda corta"
+          },
+          "ALLSKY_SFC_LW_DWN": {
+            "units": "W/m2",
+            "longname": "Radiación de onda larga"
+          },
+          "PS": {
+            "units": "kPa",
+            "longname": "Presión atmosférica"
+          },
+          "T2M_MIN": {
+            "units": "C",
+            "longname": "Temperatura mínima diaria"
+          },
+          "T2M_MAX": {
+            "units": "C",
+            "longname": "Temperatura máxima diaria"
+          },
+          "BAT_V": {
+            "units": "V",
+            "longname": "Voltaje de batería"
+          },
+          "LORA_RSSI": {
+            "units": "dBm",
+            "longname": "Intensidad de señal recibida"
+          },
+          "LORA_SNR": {
+            "units": "dB",
+            "longname": "Relación señal / ruido"
+          },
+          "GWETTOP": {
+            "units": "1",
+            "longname": "Humedad superficial derivada · porosidad ilustrativa 0.45"
+          },
+          "GWETROOT": {
+            "units": "1",
+            "longname": "Humedad radicular derivada · pesos ilustrativos 0.15 / 0.45 / 0.40"
+          }
+        }
+      },
+      "last_valid_received": null
+    }
+  ],
+  "notes": [
+    "Solo torres activas. No es historial de todas las transmisiones.",
+    "local_preview contiene valores editados; last_valid_received conserva solo la última recepción válida.",
+    "Direcciones lógicas del simulador; no configuran el firmware ni una dirección IP.",
+    "Si cambia la dirección, el paquete recibido mantiene la dirección original hasta un nuevo envío."
+  ]
+}
